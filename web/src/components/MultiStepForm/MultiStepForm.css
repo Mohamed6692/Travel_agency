@@ -1,0 +1,26 @@
+.multi-step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre le contenu horizontalement */
+  width: 100%;
+}
+
+.steps-container {
+  width: 80%; /* Ajuste la largeur des étapes */
+  margin-bottom: 2rem; /* Ajoute un espace sous les étapes */
+}
+
+.form-container {
+  width: 60%; /* Ajuste la largeur du formulaire */
+  min-height: 300px; /* Assure que le formulaire ne bouge pas en hauteur */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.custom-heading {
+  font-size: 1.5rem; /* Reduced size */
+  text-decoration: underline; /* Underline the title */
+}

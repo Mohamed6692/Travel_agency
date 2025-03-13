@@ -1,0 +1,16 @@
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.item-img-container{
+    width: 20%;
+}
+
+.item-img{
+    object-fit: cover;
+    width: 100%;
+    background-color: "#eee";
+}

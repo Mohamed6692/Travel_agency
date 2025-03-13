@@ -1,0 +1,115 @@
+Pour admin
+
+1.⁠ ⁠Utilisateurs (Users)
+•⁠  ⁠Description : Gère les informations des utilisateurs du système (clients, chauffeurs, administrateurs, partenaires).
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	nom : Nom de l'utilisateur.
+o	prenom : Prénom de l'utilisateur.
+o	email : Adresse e-mail.
+o	mot_de_passe : Mot de passe (chiffré).
+o	role : Rôle (Client, Chauffeur, Admin, Partenaire).
+o	telephone : Numéro de téléphone.
+o	adresse : Adresse de l'utilisateur.
+o	photo : Photo de profil.
+o	date_creation : Date de création du compte.
+
+2.⁠ ⁠Trajets (Trips)
+•⁠  ⁠Description : Gère les informations des trajets proposés par l'agence.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	point_depart : Lieu de départ.
+o	point_arrivee : Lieu d'arrivée.
+o	distance : Distance en kilomètres.
+o	prix : Prix du trajet.
+o	horaire_depart : Heure de départ.
+o	horaire_arrivee : Heure d'arrivée estimée.
+o	type_transport : Type de transport (bus, minibus, taxi).
+o	vehicule_id : Référence au véhicule affecté.
+o	chauffeur_id : Référence au chauffeur affecté.
+o	date_creation : Date de création du trajet.
+o	etat : Statut du trajet (Disponible, Complet, Annulé).
+
+3.⁠ ⁠Réservations (Reservations)
+•⁠  ⁠Description : Gère les réservations des clients.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	user_id : Référence au client (table Users).
+o	trip_id : Référence au trajet réservé (table Trips).
+o	siege_numero : Numéro de siège réservé.
+o	montant_total : Montant payé pour la réservation.
+o	date_reservation : Date de la réservation.
+o	statut : Statut de la réservation (Confirmé, En attente, Annulé).
+o	moyen_paiement : Moyen de paiement (Carte, Mobile Money, Espèces).
+
+4.⁠ ⁠Véhicules (Vehicles)
+•⁠  ⁠Description : Gère les informations des véhicules utilisés par l'agence.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	immatriculation : Numéro d'immatriculation du véhicule.
+o	marque : Marque du véhicule.
+o	modele : Modèle du véhicule.
+o	capacite : Nombre total de sièges.
+o	statut : Statut du véhicule (Disponible, En maintenance, Hors service).
+o	chauffeur_id : Référence au chauffeur responsable (table Users).
+o	date_ajout : Date d'ajout du véhicule.
+
+5.⁠ ⁠Chauffeurs (Drivers)
+•⁠  ⁠Description : Gère les informations des chauffeurs travaillant pour l'agence.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	user_id : Référence au compte utilisateur (table Users).
+o	permis_numero : Numéro du permis de conduire.
+o	experience : Années d'expérience.
+o	statut : Statut actuel (Disponible, En service, En repos).
+
+6.⁠ ⁠Paiements (Payments)
+•⁠  ⁠Description : Gère les paiements effectués par les clients.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	reservation_id : Référence à la réservation (table Reservations).
+o	montant : Montant payé.
+o	date_paiement : Date du paiement.
+o	methode_paiement : Méthode de paiement (Carte, Mobile Money, Espèces).
+o	statut : Statut du paiement (Réussi, Échoué).
+
+9.⁠ ⁠Avis et feedback (Reviews)
+•⁠  ⁠Description : Gère les avis des clients sur les services.
+•⁠  ⁠Champs :
+o	id : Identifiant unique.
+o	user_id : Référence au client (table Users).
+o	trip_id : Référence au trajet ou circuit.
+o	note : Note (1 à 5).
+o	commentaire : Commentaire laissé par le client.
+o	date : Date de l’avis.
+
+Relations principales entre les classes
+•⁠  ⁠Un utilisateur peut avoir plusieurs réservations.
+•⁠  ⁠Une réservation est liée à un trajet.
+•⁠  ⁠Un trajet est associé à un véhicule et un chauffeur.
+•⁠  ⁠Un véhicule peut être affecté à plusieurs trajets.
+•⁠  ⁠Un chauffeur peut gérer plusieurs trajets .
+
+Abonnent Client reguilier avec promotion 
+Suivis et gestion des abonnents mensuelle
+
+
+Statistique et Rapport
+
+
+
+Reste a faire   
+
+place done
+-Paginations(en cours ....)
+-Gerer les permission(donne)
+-Revoir la reservation(charger le trajet dans le front client , revoire le workflow ) done 
+-Revoir le formulaire du chaffeur sur la partie CIN Passport(done)
+-Revoire le probleme de dependance entre Client et Admin parte(done)
+-Espèces(status) done
+-Depart actuelle et a venire (done)
+-Caburant Manage    
+-En reparation
+-Montant devise  done 
+
+register probleme {done}

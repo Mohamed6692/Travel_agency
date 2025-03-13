@@ -1,0 +1,56 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    container_name: store_db
+    restart: always
+    # environment:
+    #   # - MONGO_INITDB_ROOT_USERNAME=root
+    #   # - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - db-volume:/data/db
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: store_api
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/store_db
+      - PORT=5001
+      - JWT_SECRET=SECRET
+      - REDIS_URL=redis
+      - REDIS_PORT=6396
+    ports:
+      - "5020:5001"
+    depends_on:
+      - mongodb
+    restart: always
+    volumes:
+      - img-volume:/app/uploads
+
+  # admin:
+  #   build:
+  #     context: ./admin
+  #     dockerfile: Dockerfile
+  #   container_name: store_admin
+  #   ports:
+  #     - "3002:81"
+  #   depends_on:
+  #     - backend
+  #   restart: always
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: store_app
+    ports:
+      - "3020:80"
+    restart: always
+    volumes:
+      - ./web:/app  # Synchroniser ton dossier local './web' avec le container
+
+volumes:
+  db-volume:
+  img-volume:

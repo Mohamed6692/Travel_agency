@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Activation du compte</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        min-width: 100%;
+        font-family: "Rubik", Courier, monospace;
+        line-height: 1.5;
+        background-color: #fafafa;
+        color: #222;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-top: 0;
+        margin-bottom: 15px;
+        align-items: center;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 24px;
+      }
+
+      table td {
+        vertical-align: top;
+      }
+
+      .email-wrapper {
+        max-width: 600px;
+
+        margin: 0 auto;
+      }
+
+      .email-header {
+        background-color: #0070f3;
+        padding: 24px;
+        color: #ffffff;
+      }
+      .email-body {
+        padding: 24px;
+        background: #fff;
+      }
+      .email-footer {
+        background: #f6f6f6;
+      }
+      .button {
+        display: inline-block;
+        background-color: #0070f3;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div class="email-header">
+        <h1>Bienvenue au STORE</h1>
+      </div>
+      <div class="email-body">
+        <p>Bonjour, <%= user.name %>,</p>
+        <p>
+          Merci de vous inscrire au STORE. Pour activer votre compte, veuillez
+          utiliser le code d'activation suivant :
+        </p>
+        <h2><%= activationCode %></h2>
+        <p>
+          Entrez ce code sur la page d'activation dans les 5 prochaines minutes
+        </p>
+        <p>
+          Si vous ne vous êtes pas inscrit au STORE, veuillez ignorer ceci
+          e-mail
+        </p>
+      </div>
+      <div class="email-footer">
+        <p>
+          Si vous avez des questions, n'hésitez pas à nous contacter au
+          <a href="mailto:infos@fatihoune.com">infos@fatihoune.com</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,889 @@
+{
+  "services": [
+    {
+      "image": "trainer-explaining.jpg",
+      "name": "learn",
+      "title": "Formation continues & qualifiantes",
+      "description": "Apprenez à apprendre, découvrez les compétences de demain, et prenez votre carrière en main.",
+      "linkText": "Consultez nos offres de formations",
+      "id": "1",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Conseil en Formation",
+          "description": "Évaluation des besoins en formation. Développement de plans de formation personnalisés.",
+          "image": "conseil_formation.jpg"
+        },
+        {
+          "name": "Développement de Programmes de Formation",
+          "description": "Conception de programmes de formation adaptés aux exigences du marché. Élaboration de supports pédagogiques et de matériels de formation.",
+          "image": "developpement_programmes_formation.jpg"
+        },
+        {
+          "name": "Formation Présentielle",
+          "description": "Cours en salle dispensés par des formateurs experts. Ateliers interactifs et sessions de groupe.",
+          "image": "formation_presentielle.jpg"
+        },
+        {
+          "name": "Formation en Ligne",
+          "description": "Développement de modules de formation en ligne. Plateforme d'apprentissage en ligne (LMS) pour l'accès aux cours.",
+          "image": "formation_en_ligne.jpg"
+        },
+        {
+          "name": "Formation Mixte (Blended Learning)",
+          "description": "Combinaison de sessions présentielle et en ligne pour une approche holistique.",
+          "image": "formation_mixte.jpg"
+        },
+        {
+          "name": "Ateliers et Séminaires",
+          "description": "Organisation d'ateliers thématiques et de séminaires. Intervenants invités et experts du secteur.",
+          "image": "ateliers_seminaires.jpg"
+        },
+        {
+          "name": "Formation Continue",
+          "description": "Programmes visant à actualiser et à améliorer les compétences existantes. Possibilité d'obtention de crédits de formation continue.",
+          "image": "formation_continue.jpg"
+        },
+        {
+          "name": "Certifications",
+          "description": "Préparation aux examens de certifications reconnues. Délivrance de certifications internes, le cas échéant.",
+          "image": "certifications.jpg"
+        },
+        {
+          "name": "Accompagnement Individuel",
+          "description": "Soutien personnalisé pour les apprenants. Coaching et mentorat pour le développement professionnel.",
+          "image": "accompagnement_individuel.jpg"
+        },
+        {
+          "name": "Évaluation des Compétences",
+          "description": "Mise en place de processus d'évaluation formative et sommative. Utilisation d'outils d'évaluation pour mesurer les progrès.",
+          "image": "evaluation_competences.jpg"
+        },
+        {
+          "name": "Services de Carrière",
+          "description": "Ateliers de développement professionnel. Assistance à la recherche d'emploi et à la préparation d'entretiens.",
+          "image": "services_carriere.jpg"
+        },
+        {
+          "name": "Formation Intra-Entreprise",
+          "description": "Adaptation des programmes de formation aux besoins spécifiques des entreprises. Sessions personnalisées pour les équipes internes.",
+          "image": "formation_intra_entreprise.jpg"
+        },
+        {
+          "name": "Gestion Administrative",
+          "description": "Inscription et suivi des participants. Gestion logistique des sessions de formation.",
+          "image": "gestion_administrative.jpg"
+        },
+        {
+          "name": "Reporting et Évaluation Continue",
+          "description": "Collecte de données pour évaluer l'efficacité des programmes. Rapports réguliers sur les performances et les retours des apprenants.",
+          "image": "reporting_evaluation.jpg"
+        },
+        {
+          "name": "Veille Pédagogique et Technologique",
+          "description": "Suivi des tendances éducatives et des nouvelles technologies. Intégration de nouvelles méthodes d'enseignement.",
+          "image": "veille_pedagogique_technologique.jpg"
+        }
+      ]
+    },
+    {
+      "image": "healthcare.jpg",
+      "name": "santé",
+      "title": "Assistance medicale",
+      "description": " Notre service d'assistance médicale offre un accès 24h/24 aux professionnels de la santé et aux ressources",
+      "linkText": "Consultez nos offres",
+      "id": "2",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Assistance Téléphonique 24/7",
+          "description": "Service téléphonique accessible en permanence pour fournir des conseils médicaux et des informations.",
+          "image": "assistance_telephonique.jpg"
+        },
+        {
+          "name": "Conseils Médicaux Généraux",
+          "description": "Réponses aux questions médicales courantes et conseils sur la gestion de la santé.",
+          "image": "conseils_medicaux.jpg"
+        },
+        {
+          "name": "Orientation vers les Professionnels de Santé",
+          "description": "Aide à la localisation de médecins, spécialistes et établissements de santé.",
+          "image": "orientation_professionnels_sante.jpg"
+        },
+        {
+          "name": "Gestion des Rendez-vous Médicaux",
+          "description": "Coordination des rendez-vous médicaux pour les patients.",
+          "image": "gestion_rendezvous_medicaux.jpg"
+        },
+        {
+          "name": "Suivi des Soins Chroniques",
+          "description": "Programme de suivi pour les patients atteints de maladies chroniques.",
+          "image": "suivi_soins_chroniques.jpg"
+        },
+        {
+          "name": "Coordination des Soins",
+          "description": "Gestion des transitions entre les différents niveaux de soins médicaux.",
+          "image": "coordination_soins.jpg"
+        },
+        {
+          "name": "Programmes de Prévention",
+          "description": "Conseils et ressources pour la prévention des maladies.",
+          "image": "programmes_prevention.jpg"
+        },
+        {
+          "name": "Support pour les Urgences Médicales",
+          "description": "Assistance en cas d'urgences médicales, y compris la coordination des services d'urgence.",
+          "image": "support_urgences_medicales.jpg"
+        },
+        {
+          "name": "Assistance aux Patients Hospitalisés",
+          "description": "Soutien aux patients hospitalisés et à leurs familles.",
+          "image": "assistance_patients_hospitalises.jpg"
+        },
+        {
+          "name": "Conseils en Matière de Médicaments",
+          "description": "Informations sur les médicaments, posologie et effets secondaires.",
+          "image": "conseils_medicaments.jpg"
+        },
+        {
+          "name": "Services de Télémédecine",
+          "description": "Consultations médicales à distance par vidéo ou téléphone.",
+          "image": "services_telemedecine.jpg"
+        },
+        {
+          "name": "Gestion des Dossiers Médicaux",
+          "description": "Assistance dans la gestion des dossiers médicaux électroniques.",
+          "image": "gestion_dossiers_medicaux.jpg"
+        },
+        {
+          "name": "Soutien Psychologique",
+          "description": "Services de soutien émotionnel et psychologique pour les patients.",
+          "image": "soutien_psychologique.jpg"
+        },
+        {
+          "name": "Éducation à la Santé",
+          "description": "Sessions éducatives sur la santé et les modes de vie sains.",
+          "image": "education_sante.jpg"
+        },
+        {
+          "name": "Services de Soins Palliatifs",
+          "description": "Soutien aux patients atteints de maladies graves et à leurs familles.",
+          "image": "soins_palliatifs.jpg"
+        },
+        {
+          "name": "Assistance aux Retours à Domicile",
+          "description": "Coordination des soins post-hospitaliers et aide au retour à domicile.",
+          "image": "assistance_retours_domicile.jpg"
+        },
+        {
+          "name": "Gestion des Réclamations d'Assurance",
+          "description": "Aide aux patients dans le traitement des réclamations d'assurance médicale.",
+          "image": "gestion_reclamations_assurance.jpg"
+        },
+        {
+          "name": "Programmes de Bien-Être au Travail",
+          "description": "Services de santé au travail et programmes de bien-être pour les employés.",
+          "image": "bienetre_au_travail.jpg"
+        },
+        {
+          "name": "Ressources pour les Aidants",
+          "description": "Soutien et ressources pour les personnes prenant soin de proches malades.",
+          "image": "ressources_aidants.jpg"
+        },
+        {
+          "name": "Services de Prise en Charge des Maladies Infectieuses",
+          "description": "Conseils et assistance pour les maladies infectieuses.",
+          "image": "maladies_infectieuses.jpg"
+        }
+      ]
+    },
+    {
+      "image": "computer.jpg",
+      "name": "DEV'S",
+      "title": "Informatique & Telecom",
+      "description": "Boostez votre productivité avec nos solutions informatiques",
+      "linkText": "Consultez nos solutions",
+      "id": "3",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Support Technique",
+          "description": "Assistance aux utilisateurs pour résoudre les problèmes informatiques.",
+          "image": "support_technique.jpg"
+        },
+        {
+          "name": "Gestion des Systèmes et Réseaux",
+          "description": "Administration des serveurs, des réseaux et des systèmes informatiques.",
+          "image": "gestion_systemes_reseaux.jpg"
+        },
+        {
+          "name": "Développement Logiciel",
+          "description": "Conception, développement et maintenance de logiciels.",
+          "image": "developpement_logiciel.jpg"
+        },
+        {
+          "name": "Gestion de Projet Informatique",
+          "description": "Coordination et gestion de projets informatiques.",
+          "image": "gestion_projet_informatique.jpg"
+        },
+        {
+          "name": "Sécurité Informatique",
+          "description": "Mise en place de mesures de sécurité pour protéger les données et les systèmes.",
+          "image": "securite_informatique.jpg"
+        },
+        {
+          "name": "Infrastructure Cloud",
+          "description": "Mise en place et gestion d'infrastructures basées sur le cloud.",
+          "image": "infrastructure_cloud.jpg"
+        },
+        {
+          "name": "Gestion des Bases de Données",
+          "description": "Administration et maintenance des bases de données.",
+          "image": "gestion_bases_donnees.jpg"
+        },
+        {
+          "name": "Assistance aux Utilisateurs",
+          "description": "Formation des utilisateurs et support pour l'utilisation des technologies.",
+          "image": "assistance_utilisateurs.jpg"
+        },
+        {
+          "name": "Déploiement de Matériel Informatique",
+          "description": "Installation et configuration de matériel informatique.",
+          "image": "deploiement_materiel_informatique.jpg"
+        },
+        {
+          "name": "Gestion des Licences Logicielles",
+          "description": "Suivi et gestion des licences logicielles.",
+          "image": "gestion_licences_logicielles.jpg"
+        },
+        {
+          "name": "Veille Technologique",
+          "description": "Surveillance des nouvelles technologies et évaluation de leur pertinence.",
+          "image": "veille_technologique.jpg"
+        },
+        {
+          "name": "Analyse des Besoins Informatiques",
+          "description": "Écoute des besoins des utilisateurs et proposition de solutions.",
+          "image": "analyse_besoins_informatiques.jpg"
+        },
+        {
+          "name": "Développement Web",
+          "description": "Conception et développement de sites web et d'applications web.",
+          "image": "developpement_web.jpg"
+        },
+        {
+          "name": "Gestion des Données",
+          "description": "Collecte, analyse et interprétation des données pour prendre des décisions informatiques éclairées.",
+          "image": "gestion_donnees.jpg"
+        },
+        {
+          "name": "Intégration de Systèmes",
+          "description": "Intégration de différents systèmes informatiques pour assurer leur compatibilité.",
+          "image": "integration_systemes.jpg"
+        },
+        {
+          "name": "Résolution d'Incidents",
+          "description": "Intervention rapide pour résoudre les incidents informatiques.",
+          "image": "resolution_incidents.jpg"
+        },
+        {
+          "name": "Sauvegarde et Récupération des Données",
+          "description": "Mise en place de stratégies de sauvegarde et de récupération des données.",
+          "image": "sauvegarde_recuperation_donnees.jpg"
+        },
+        {
+          "name": "Développement Mobile",
+          "description": "Conception et développement d'applications mobiles.",
+          "image": "developpement_mobile.jpg"
+        },
+        {
+          "name": "Audit de Sécurité Informatique",
+          "description": "Évaluation de la sécurité informatique et recommandations pour l'améliorer.",
+          "image": "audit_securite_informatique.jpg"
+        },
+        {
+          "name": "Optimisation des Performances",
+          "description": "Analyse et amélioration des performances des systèmes informatiques.",
+          "image": "optimisation_performances.jpg"
+        },
+        {
+          "name": "Gestion des Espaces de Stockage",
+          "description": "Allocation et gestion des espaces de stockage.",
+          "image": "gestion_espaces_stockage.jpg"
+        },
+        {
+          "name": "Automatisation des Processus",
+          "description": "Mise en place de solutions d'automatisation des processus informatiques.",
+          "image": "automatisation_processus.jpg"
+        },
+        {
+          "name": "Service d'Assistance en Ligne",
+          "description": "Support en ligne pour résoudre les problèmes à distance.",
+          "image": "assistance_ligne.jpg"
+        },
+        {
+          "name": "Formation en Technologie",
+          "description": "Sessions de formation pour les employés sur l'utilisation des nouvelles technologies.",
+          "image": "formation_technologie.jpg"
+        },
+        {
+          "name": "Développement d'Applications Métier",
+          "description": "Conception d'applications spécifiques aux besoins métier de l'organisation.",
+          "image": "developpement_applications_metier.jpg"
+        },
+        {
+          "name": "Business Intelligence",
+          "description": "Collecte, analyse et visualisation des données pour prendre des décisions stratégiques.",
+          "image": "business_intelligence.jpg"
+        }
+      ]
+    },
+    {
+      "image": "restauration.jpg",
+      "name": "FOODS",
+      "title": "Restauration",
+      "description": "Nous offrons des délices culinaires et un service impeccable pour rendre votre expérience culinaire inoubliable.",
+      "linkText": "Découvrir nos services",
+      "id": "4",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Service de Restauration",
+          "description": "Préparation et service des repas.",
+          "image": "service_restauration.jpg"
+        },
+        {
+          "name": "Menu Varié",
+          "description": "Offre de plats variés pour satisfaire différents goûts.",
+          "image": "menu_varie.jpg"
+        },
+        {
+          "name": "Service à la Clientèle",
+          "description": "Assistance amicale et professionnelle pour les clients.",
+          "image": "service_clientele.jpg"
+        },
+        {
+          "name": "Catering",
+          "description": "Fourniture de services de restauration pour des événements spéciaux.",
+          "image": "catering.jpg"
+        },
+        {
+          "name": "Livraison de Repas",
+          "description": "Service de livraison pour les clients qui préfèrent manger à domicile.",
+          "image": "livraison_repas.jpg"
+        },
+        {
+          "name": "Gestion des Stocks",
+          "description": "Suivi et gestion des stocks d'ingrédients et de fournitures.",
+          "image": "gestion_stocks.jpg"
+        },
+        {
+          "name": "Événements et Animations",
+          "description": "Organisation d'événements spéciaux et animations pour les clients.",
+          "image": "evenements_animations.jpg"
+        },
+        {
+          "name": "Contrôle de la Qualité",
+          "description": "Assurance de la qualité des ingrédients et des plats.",
+          "image": "controle_qualite.jpg"
+        }
+      ]
+    },
+    {
+      "image": "import_export.jpg",
+      "name": "DISTRIBUTION",
+      "title": "Distribution",
+      "description": "Nous sommes dédiés à orchestrer une chaîne d'approvisionnement sans faille, garantissant que vos produits atteignent vos clients de manière rapide, fiable et rentable.",
+      "linkText": "En savoir plus",
+      "id": "5",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Gestion des Stocks",
+          "description": "Suivi et gestion des stocks de produits.",
+          "image": "gestion_stocks.jpg"
+        },
+        {
+          "name": "Distribution et Livraison",
+          "description": "Planification et exécution de la distribution et de la livraison des produits.",
+          "image": "distribution_livraison.jpg"
+        },
+        {
+          "name": "Gestion des Transports",
+          "description": "Organisation et optimisation des moyens de transport pour les produits.",
+          "image": "gestion_transports.jpg"
+        },
+        {
+          "name": "Gestion des Commandes",
+          "description": "Traitement des commandes clients et suivi des expéditions.",
+          "image": "gestion_commandes.jpg"
+        },
+        {
+          "name": "Gestion des Retours",
+          "description": "Coordination et traitement des retours de produits.",
+          "image": "gestion_retours.jpg"
+        },
+        {
+          "name": "Optimisation des Itinéraires",
+          "description": "Planification des itinéraires pour optimiser l'efficacité des transports.",
+          "image": "optimisation_itineraires.jpg"
+        },
+        {
+          "name": "Gestion des Entrepôts",
+          "description": "Organisation et supervision des activités dans les entrepôts.",
+          "image": "gestion_entrepots.jpg"
+        },
+        {
+          "name": "Technologies de Traçabilité",
+          "description": "Mise en place de technologies pour la traçabilité des produits.",
+          "image": "technologies_tracabilite.jpg"
+        },
+        {
+          "name": "Gestion des Points de Vente",
+          "description": "Supervision des opérations dans les points de vente.",
+          "image": "gestion_points_vente.jpg"
+        },
+        {
+          "name": "Gestion des Stocks en Magasin",
+          "description": "Suivi des stocks et réapprovisionnement dans les magasins.",
+          "image": "gestion_stocks_magasin.jpg"
+        },
+        {
+          "name": "Gestion des Promotions",
+          "description": "Planification et exécution de promotions pour les produits.",
+          "image": "gestion_promotions.jpg"
+        },
+        {
+          "name": "Analyse des Performances de Distribution",
+          "description": "Évaluation des performances pour améliorer l'efficacité de la distribution.",
+          "image": "analyse_performances_distribution.jpg"
+        },
+        {
+          "name": "Gestion des Retards",
+          "description": "Traitement des retards potentiels dans la distribution.",
+          "image": "gestion_retards.jpg"
+        },
+        {
+          "name": "Gestion des Allées de Chargement",
+          "description": "Optimisation des espaces et flux dans les allées de chargement.",
+          "image": "gestion_allees_chargement.jpg"
+        },
+        {
+          "name": "Gestion des Pénuries",
+          "description": "Planification pour éviter les pénuries de produits.",
+          "image": "gestion_penuries.jpg"
+        },
+        {
+          "name": "Technologies de Géolocalisation",
+          "description": "Utilisation de technologies de géolocalisation pour le suivi des livraisons.",
+          "image": "technologies_geolocalisation.jpg"
+        },
+        {
+          "name": "Formation en Distribution",
+          "description": "Sessions de formation pour le personnel impliqué dans la distribution.",
+          "image": "formation_distribution.jpg"
+        },
+        {
+          "name": "Gestion des Contrats de Distribution",
+          "description": "Négociation et gestion des contrats avec les partenaires de distribution.",
+          "image": "gestion_contrats_distribution.jpg"
+        },
+        {
+          "name": "Gestion des Ressources Humaines en Distribution",
+          "description": "Recrutement et gestion du personnel lié à la distribution.",
+          "image": "gestion_ressources_humaines_distribution.jpg"
+        },
+        {
+          "name": "Évaluation Environnementale en Distribution",
+          "description": "Analyse des impacts environnementaux de la chaîne de distribution.",
+          "image": "evaluation_environnementale_distribution.jpg"
+        },
+        {
+          "name": "Systèmes de Gestion de la Qualité en Distribution",
+          "description": "Mise en place de systèmes pour assurer la qualité des opérations de distribution.",
+          "image": "systemes_gestion_qualite_distribution.jpg"
+        }
+      ]
+    },
+    {
+      "image": "immo.jpg",
+      "name": "IMMO",
+      "title": "Immobilier & Construction",
+      "description": "Une gamme complète de maisons individuelles adaptées à vos besoins et à votre budget Des maisons éco-responsables, pensées pour votre confort et votre épanouissement",
+      "linkText": "En savoir plus",
+      "id": "6",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Vente de Biens Immobiliers",
+          "description": "Facilitation de la vente de propriétés immobilières.",
+          "image": "vente_biens_immobiliers.jpg"
+        },
+        {
+          "name": "Location de Biens Immobiliers",
+          "description": "Gestion et location de propriétés résidentielles et commerciales.",
+          "image": "location_biens_immobiliers.jpg"
+        },
+        {
+          "name": "Gestion Locative",
+          "description": "Administration des biens immobiliers en location.",
+          "image": "gestion_locative.jpg"
+        },
+        {
+          "name": "Estimation de Propriété",
+          "description": "Évaluation de la valeur marchande des biens immobiliers.",
+          "image": "estimation_propriete.jpg"
+        },
+        {
+          "name": "Achat d'Investissement Immobilier",
+          "description": "Conseil et assistance dans l'achat d'investissements immobiliers.",
+          "image": "achat_investissement_immobilier.jpg"
+        },
+        {
+          "name": "Gestion de Copropriété",
+          "description": "Administration des biens immobiliers en copropriété.",
+          "image": "gestion_copropriete.jpg"
+        },
+        {
+          "name": "Vente de Propriétés Commerciales",
+          "description": "Commercialisation et vente de biens immobiliers commerciaux.",
+          "image": "vente_proprietes_commerciales.jpg"
+        },
+        {
+          "name": "Location de Propriétés Commerciales",
+          "description": "Gestion et location de biens immobiliers à usage commercial.",
+          "image": "location_proprietes_commerciales.jpg"
+        },
+        {
+          "name": "Gestion de Portefeuille Immobilier",
+          "description": "Surveillance et gestion d'un portefeuille de propriétés immobilières.",
+          "image": "gestion_portefeuille_immobilier.jpg"
+        },
+        {
+          "name": "Home Staging",
+          "description": "Présentation visuelle pour maximiser l'attrait des biens immobiliers.",
+          "image": "home_staging.jpg"
+        },
+        {
+          "name": "Assistance Juridique Immobilière",
+          "description": "Conseils juridiques liés aux transactions immobilières.",
+          "image": "assistance_juridique_immobiliere.jpg"
+        },
+        {
+          "name": "Évaluation de Propriété Commerciale",
+          "description": "Évaluation de la valeur marchande des biens immobiliers commerciaux.",
+          "image": "evaluation_propriete_commerciale.jpg"
+        },
+        {
+          "name": "Financement Immobilier",
+          "description": "Conseil et assistance dans le financement d'acquisitions immobilières.",
+          "image": "financement_immobilier.jpg"
+        },
+        {
+          "name": "Développement Immobilier",
+          "description": "Planification et gestion de projets de développement immobilier.",
+          "image": "developpement_immobilier.jpg"
+        },
+        {
+          "name": "Recherche Immobilière",
+          "description": "Identification de biens immobiliers répondant aux besoins spécifiques des clients.",
+          "image": "recherche_immobiliere.jpg"
+        },
+        {
+          "name": "Consultation en Investissement Immobilier",
+          "description": "Conseils stratégiques pour les investissements immobiliers.",
+          "image": "consultation_investissement_immobilier.jpg"
+        },
+        {
+          "name": "Gestion des Litiges Immobiliers",
+          "description": "Résolution de litiges liés à la propriété immobilière.",
+          "image": "gestion_litiges_immobiliers.jpg"
+        },
+        {
+          "name": "Conseil en Aménagement Foncier",
+          "description": "Planification et conseil pour l'aménagement de terrains.",
+          "image": "conseil_amenagement_foncier.jpg"
+        },
+        {
+          "name": "Marketing Immobilier",
+          "description": "Stratégies de marketing pour la promotion de biens immobiliers.",
+          "image": "marketing_immobilier.jpg"
+        },
+        {
+          "name": "Gestion des Rénovations Immobilières",
+          "description": "Coordination et supervision des projets de rénovation.",
+          "image": "gestion_renovations_immobilieres.jpg"
+        },
+        {
+          "name": "Éco-immobilier",
+          "description": "Conseils pour des pratiques immobilières respectueuses de l'environnement.",
+          "image": "eco_immobilier.jpg"
+        }
+      ]
+    },
+    {
+      "image": "agric.jpg",
+      "name": "AGRIC",
+      "title": "Agriculture & Elevage",
+      "description": "Des pratiques respectueuses de l'environnement et de la biodiversité Des produits sains et savoureux, issus de nos terres Des projets innovants, pour une agriculture de demain",
+      "linkText": "En savoir plus",
+      "id": "7",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "name": "Culture de Cultures Vivrières",
+          "description": "Cultivation de cultures vivrières telles que céréales, légumes, et fruits.",
+          "image": "culture_cultures_vivrieres.jpg"
+        },
+        {
+          "name": "Élevage de Bétail",
+          "description": "Élevage de bovins, ovins, porcins, etc., pour la production de viande.",
+          "image": "elevage_betail.jpg"
+        },
+        {
+          "name": "Culture de Plantes Industrielles",
+          "description": "Cultivation de plantes industrielles comme le coton, le tabac, etc.",
+          "image": "culture_plantes_industrielles.jpg"
+        },
+        {
+          "name": "Cultures Horticoles",
+          "description": "Cultivation de légumes et de fruits pour le marché horticole.",
+          "image": "cultures_horticoles.jpg"
+        },
+        {
+          "name": "Production Laitière",
+          "description": "Élevage de vaches laitières pour la production de lait.",
+          "image": "production_laitiere.jpg"
+        },
+        {
+          "name": "Apiculture",
+          "description": "Production de miel par l'élevage d'abeilles.",
+          "image": "apiculture.jpg"
+        },
+        {
+          "name": "Pisciculture",
+          "description": "Élevage de poissons pour la production de poisson.",
+          "image": "pisciculture.jpg"
+        },
+        {
+          "name": "Cultures Biologiques",
+          "description": "Cultivation de cultures sans l'utilisation de produits chimiques.",
+          "image": "cultures_biologiques.jpg"
+        },
+        {
+          "name": "Élevage Avicole",
+          "description": "Élevage de volailles pour la production de viande et d'œufs.",
+          "image": "elevage_avicole.jpg"
+        },
+        {
+          "name": "Gestion des Serres",
+          "description": "Mise en place et gestion de serres pour la culture sous abri.",
+          "image": "gestion_serre.jpg"
+        },
+        {
+          "name": "Gestion des Parcelles Agricoles",
+          "description": "Organisation et gestion des parcelles agricoles.",
+          "image": "gestion_parcelles_agricoles.jpg"
+        },
+        {
+          "name": "Sylviculture",
+          "description": "Gestion durable des forêts pour la production de bois.",
+          "image": "sylviculture.jpg"
+        },
+        {
+          "name": "Agroforesterie",
+          "description": "Intégration d'arbres dans les systèmes agricoles pour des bénéfices multiples.",
+          "image": "agroforesterie.jpg"
+        },
+        {
+          "name": "Gestion des Ressources en Eau",
+          "description": "Utilisation efficace et durable des ressources en eau pour l'agriculture.",
+          "image": "gestion_ressources_eau.jpg"
+        },
+        {
+          "name": "Élevage Caprin",
+          "description": "Élevage de chèvres pour la production de viande et de lait de chèvre.",
+          "image": "elevage_caprin.jpg"
+        },
+        {
+          "name": "Gestion des Plantes Médicinales",
+          "description": "Cultivation de plantes médicinales pour des usages thérapeutiques.",
+          "image": "gestion_plantes_medicinales.jpg"
+        },
+        {
+          "name": "Agroécologie",
+          "description": "Pratiques agricoles durables et respectueuses de l'environnement.",
+          "image": "agroecologie.jpg"
+        },
+        {
+          "name": "Gestion des Pâturages",
+          "description": "Optimisation de l'utilisation des pâturages pour le bétail.",
+          "image": "gestion_paturages.jpg"
+        },
+        {
+          "name": "Production de Fourrage",
+          "description": "Culture de plantes destinées à l'alimentation du bétail.",
+          "image": "production_fourrage.jpg"
+        },
+        {
+          "name": "Gestion des Maladies Animales",
+          "description": "Prévention et traitement des maladies chez les animaux d'élevage.",
+          "image": "gestion"
+        }
+      ]
+    },
+    {
+      "image": "import_export.jpg",
+      "name": "IMPORT & EXPORT",
+      "title": "Import & Export",
+      "description": "Notre équipe possède les connaissances et l'expérience nécessaires pour vous aider à naviguer dans le monde complexe du commerce international",
+      "linkText": "En savoir plus",
+      "id": "8",
+      "advantages": [
+        "Solutions sur Mesure : Des services adaptés à vos besoins spécifiques.",
+        "Excellence Opérationnelle : Notre engagement envers la qualité guide chaque aspect de notre service.",
+        "Impact Mesurable : Découvrez comment nous pouvons apporter une valeur ajoutée concrète à votre entreprise."
+      ],
+      "services": [
+        {
+          "nom": "Recherche de Fournisseurs",
+          "description": "Identification et sélection de fournisseurs pour les produits à importer.",
+          "image": "recherche_fournisseurs.jpg"
+        },
+        {
+          "nom": "Négociation des Contrats d'Importation",
+          "description": "Négociation des termes et conditions des contrats d'importation.",
+          "image": "negociation_contrats_importation.jpg"
+        },
+        {
+          "nom": "Gestion des Licences d'Importation",
+          "description": "Obtention et gestion des licences nécessaires pour l'importation.",
+          "image": "gestion_licences_importation.jpg"
+        },
+        {
+          "nom": "Logistique d'Importation",
+          "description": "Planification et gestion de la logistique pour le transport des marchandises importées.",
+          "image": "logistique_importation.jpg"
+        },
+        {
+          "nom": "Déclaration en Douane",
+          "description": "Préparation et soumission des documents nécessaires pour la déclaration en douane.",
+          "image": "declaration_douane.jpg"
+        },
+        {
+          "nom": "Gestion des Taxes et Droits de Douane",
+          "description": "Calcul et gestion des taxes et droits de douane associés à l'importation.",
+          "image": "gestion_taxes_droits_douane.jpg"
+        },
+        {
+          "nom": "Contrôle de la Qualité des Produits Importés",
+          "description": "Inspection et vérification de la qualité des produits importés.",
+          "image": "controle_qualite_importations.jpg"
+        },
+        {
+          "nom": "Gestion des Stocks d'Importation",
+          "description": "Suivi et gestion des stocks des produits importés.",
+          "image": "gestion_stocks_importation.jpg"
+        },
+        {
+          "nom": "Distribution des Produits Importés",
+          "description": "Planification et mise en œuvre de la distribution des produits importés.",
+          "image": "distribution_produits_importes.jpg"
+        },
+        {
+          "nom": "Développement de Marchés d'Exportation",
+          "description": "Identification de marchés étrangers et développement de stratégies d'exportation.",
+          "image": "developpement_marches_exportation.jpg"
+        },
+        {
+          "nom": "Négociation des Contrats d'Exportation",
+          "description": "Négociation des termes et conditions des contrats d'exportation.",
+          "image": "negociation_contrats_exportation.jpg"
+        },
+        {
+          "nom": "Gestion des Licences d'Exportation",
+          "description": "Obtention et gestion des licences nécessaires pour l'exportation.",
+          "image": "gestion_licences_exportation.jpg"
+        },
+        {
+          "nom": "Logistique d'Exportation",
+          "description": "Planification et gestion de la logistique pour le transport des marchandises exportées.",
+          "image": "logistique_exportation.jpg"
+        },
+        {
+          "nom": "Préparation des Documents d'Exportation",
+          "description": "Émission et soumission des documents nécessaires pour l'exportation.",
+          "image": "preparation_documents_exportation.jpg"
+        },
+        {
+          "nom": "Gestion des Risques de Change",
+          "description": "Gestion des risques liés aux fluctuations des taux de change.",
+          "image": "gestion_risques_change.jpg"
+        },
+        {
+          "nom": "Promotion des Produits Exportés",
+          "description": "Mise en œuvre de stratégies de promotion pour les produits exportés.",
+          "image": "promotion_produits_exportes.jpg"
+        },
+        {
+          "nom": "Conformité aux Normes Internationales",
+          "description": "Assurance de la conformité aux normes internationales pour les produits exportés.",
+          "image": "conformite_normes_internationales.jpg"
+        },
+        {
+          "nom": "Gestion des Retours et Réclamations",
+          "description": "Traitement des retours de produits et gestion des réclamations.",
+          "image": "gestion_retours_reclamations.jpg"
+        },
+        {
+          "nom": "Analyse du Marché International",
+          "description": "Étude et analyse des tendances du marché international.",
+          "image": "analyse_marche_international.jpg"
+        },
+        {
+          "nom": "Formation en Commerce International",
+          "description": "Sessions de formation pour le personnel impliqué dans le commerce international.",
+          "image": "formation_commerce_international.jpg"
+        },
+        {
+          "nom": "Gestion des Litiges Commerciaux Internationaux",
+          "description": "Résolution des litiges commerciaux sur la scène internationale.",
+          "image": "gestion_litiges_commerciaux_internationaux.jpg"
+        },
+        {
+          "nom": "Évaluation des Risques Politiques et Économiques",
+          "description": "Évaluation des risques politiques et économiques liés aux opérations internationales.",
+          "image": "evaluation_risques_politiques_economiques.jpg"
+        }
+      ]
+    }
+  ]
+}
