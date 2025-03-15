@@ -6,25 +6,10 @@ import { Button, MenuItem, Select } from "@mui/material";
 import DatePicker from "react-datepicker";
 import { FaCalendarAlt } from "react-icons/fa";
 import MultiStepFromContext from "./MultiStepFromContext";
-import { set } from "date-fns";
+import { add, set } from "date-fns";
 import { Typography } from "@mui/material";
 import axios from 'axios';
 
-const cities = ["Abidjan", "Bouaké", "Korhogo", "Yamoussoukro"];
-const tarifs = {
-  "Abidjan-Bouaké": 15000,
-  "Abidjan-Korhogo": 25000,
-  "Abidjan-Yamoussoukro": 10000,
-  "Bouaké-Abidjan": 15000,
-  "Bouaké-Korhogo": 12000,
-  "Bouaké-Yamoussoukro": 8000,
-  "Korhogo-Abidjan": 25000,
-  "Korhogo-Bouaké": 12000,
-  "Korhogo-Yamoussoukro": 18000,
-  "Yamoussoukro-Abidjan": 10000,
-  "Yamoussoukro-Bouaké": 8000,
-  "Yamoussoukro-Korhogo": 18000,
-};
 
 
 const StepOne = () => {
@@ -35,7 +20,7 @@ const StepOne = () => {
   const [selectedDeparture, setSelectedDeparture] = useState("");
   const [selectedTarif, setSelectedTarif] = useState(null);
   const [selectedHoraires, setSelectedHoraires] = useState([]);
-
+  const [vehiculeCapacite, setVehiculeCapacite] = useState(null);
  
   useEffect(() => {
     axios
@@ -48,9 +33,10 @@ const StepOne = () => {
       })
       .catch((error) => console.error("Erreur lors du chargement des trajets:", error));
   }, []);
-
+//seat
   useEffect(() => {
-    if (selectedDeparture && address.arrivalCity && address.date) {
+    if (address.departureCity && address.arrivalCity && address.date) {
+      console.log("Récupération des sièges réservés");
       axios
         .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${address.departureCity}&arrivalCity=${address.arrivalCity}&date=${address.date}`)
         .then((response) => {
@@ -59,17 +45,22 @@ const StepOne = () => {
             const selectedTrajet = trajets.find(
               (t) => t.origine === address.departureCity && t.destination === address.arrivalCity
             );
-            const capacite = selectedTrajet?.vehicule_id?.capacite || 0;
-            const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
-            const availableSeats = allSeats.filter((seat) => !reservedSeats.includes(seat.toString()));
-
-            setSeatNumbers(availableSeats);
+  
+            if (selectedTrajet && selectedTrajet.vehicule_id) {
+              const capacite = selectedTrajet.vehicule_id.capacite || 0;
+              const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
+              const availableSeats = allSeats.filter((seat) => !reservedSeats.includes(seat.toString()));
+  
+              setSeatNumbers(availableSeats);
+              setAddress({ ...address, seatNumbers: availableSeats }); // Mettre à jour le contexte
+            }
           }
         })
         .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
     }
   }, [address.departureCity, address.arrivalCity, address.date, trajets]);
 
+  
   //depart
   const handleDepartureChange = (e, setFieldValue) => {
     const departure = e.target.value;
@@ -99,6 +90,9 @@ const StepOne = () => {
       setSelectedHoraires([trajet.horaire_depart, trajet.horaire_arrivee]);
       setFieldValue("tarif", trajet.prix);
       setFieldValue("horaires", [trajet.horaire_depart, trajet.horaire_arrivee]);
+       // Met à jour la capacité du véhicule
+      setVehiculeCapacite(trajet?.vehicule_id?.capacite || []);
+      setFieldValue("seat", trajet?.vehicule_id?.capacite || []);
     }
   };
 
@@ -107,7 +101,7 @@ const StepOne = () => {
 
   return (
     <Formik
-    initialValues={{ ...address, tarif: "", horaires: [] }}
+    initialValues={{ ...address, tarif: "", horaires: [] ,seat: []}}
       onSubmit={(values) => {
         setAddress(values);
         next();
@@ -192,7 +186,12 @@ const StepOne = () => {
               <p className="error__feedback">{errors.date}</p>
             </div>
           </div>
-
+{/* Affichage de la capacité du véhicule */}
+{vehiculeCapacite && (
+  <Typography variant="body1" style={{ marginTop: "10px", fontWeight: "bold" }}>
+    Capacité du véhicule : {vehiculeCapacite} sièges
+  </Typography>
+)}
           {/* Boutons */}
           <div className="form__item button__items d-flex justify-content-between">
             <Button variant="contained" color="primary" onClick={handleSubmit}>

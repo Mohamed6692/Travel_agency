@@ -6,46 +6,11 @@ import axios from "axios";
 
 const StepThree = () => {
   const { address, setAddress, next, prev } = useContext(MultiStepFromContext);
-  const [availableSeats, setAvailableSeats] = useState([]);
   const [selectedSeat, setSelectedSeat] = useState(null);
 
-  useEffect(() => {
-    if (address.departureCity && address.arrivalCity && address.date) {
-      axios
-        .get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${address.departureCity}&arrivalCity=${address.arrivalCity}&date=${address.date}`
-        )
-        .then((response) => {
-          // Ajout d'un log pour inspecter la structure de la réponse
-          console.log("Réponse API:", response.data);
-          if (response.data.success) {
-            const reservedSeats = response.data.reservations.map(
-              (seat) => seat.toString()
-            );
-            const trajet = response.data.trajet;
-            console.log("trajet", trajet);
-
-            // Vérification si 'trajet' et 'vehicule_id' existent avant d'y accéder
-            const capacite = trajet?.vehicule_id?.capacite || 0;
-            if (capacite === 0) {
-              console.log("Capacité non définie ou non trouvée");
-            }
-
-            // Création de allSeats en fonction de la capacité
-            const allSeats = capacite > 0 ? Array.from({ length: capacite }, (_, i) => i + 1) : [];
-            console.log("allSeats", allSeats);
-
-            // Filtrer les sièges réservés
-            const availableSeats = allSeats.filter(
-              (seat) => !reservedSeats.includes(seat.toString())
-            );
-
-            setAvailableSeats(availableSeats);
-          }
-        })
-        .catch((error) => console.error("Erreur lors de la récupération des sièges :", error));
-    }
-  }, [address]);
+    console.log("voir element",address)
+    // Génération des numéros de sièges en fonction de address.seat
+    const availableSeats = Array.from({ length: address.seat }, (_, i) => i + 1);
 
   return (
     <Formik
@@ -73,10 +38,19 @@ const StepThree = () => {
               value={values.seat}
               onChange={(e) => setFieldValue("seat", e.target.value)}
               style={{ width: "150px", height: "35px" }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: "200px", // Limite la hauteur du menu déroulant
+                    overflowY: "auto", // Permet le défilement si nécessaire
+                  },
+                },
+              }}
             >
-              {availableSeats.map((seat) => (
-                <MenuItem key={seat} value={seat}>
-                  Siège {seat}
+              <MenuItem value="" disabled>Choisissez un siège</MenuItem>
+              {availableSeats.map((seatNumber) => (
+                <MenuItem key={seatNumber} value={seatNumber} sx={{ fontSize: "14px", minHeight: "3px" }}>
+                  Siège {seatNumber}
                 </MenuItem>
               ))}
             </Select>

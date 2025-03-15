@@ -243,6 +243,8 @@ router.put(
   })
 );
 
+
+
 // METTRE À JOUR LE RÔLE D'UN UTILISATEUR
 router.put(
   "/role/:userId",
@@ -366,5 +368,40 @@ router.post(
     }
   })
 );
+
+
+
+// URL : http://localhost:5001/api/users/make-admin-by-email
+// METHOD : PUT
+// REQUEST : { email }
+// RESPONSE SUCCESS : STATUS - 200
+// RESPONSE ERROR : STATUS - 400 | 404
+router.put(
+  "/make-admin-by-email",
+  CatchAsyncError(async (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return next(new Errors("Email est requis", 400));
+      }
+
+      const user = await User.findOne({ email });
+      if (!user) return next(new Errors("Utilisateur non trouvé", 404));
+
+      user.isAdmin = true;
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: `L'utilisateur a été promu administrateur avec succès`,
+        user,
+      });
+    } catch (error) {
+      next(new Errors(error.message, 500));
+    }
+  })
+);
+
 
 module.exports = router;

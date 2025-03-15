@@ -3,6 +3,10 @@ const Errors = require("../helpers/Errors");
 const User = require("../models/User");
 
 const auth = async (req, res, next) => {
+  if (req.path === "/api/users/make-admin-by-email") {
+    return next(); // Ignore l'authentification pour cette route spécifique
+  }
+
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
     console.log("sss",token);

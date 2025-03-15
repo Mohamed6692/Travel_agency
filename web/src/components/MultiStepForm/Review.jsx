@@ -17,17 +17,19 @@ const Review = ({ successMessage, setSuccessMessage }) => {
   const handleSubmit = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
-
+    
     const reservationData = {
       departureCity: address.departureCity,
       arrivalCity: address.arrivalCity,
       date: address.date,
       tarif: address.tarif,
       horaire: details.horaire,
-      seatNumber: details.seatNumber,
+      seatNumber:address.seat,
       user: localStorage.getItem("userId"),
       paymentStatus: "incomplete", // Création avec le statut "incomplete"
     };
+
+    console.log("Création de la réservation avec les données suivantes :", reservationData);
 
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_URL+"/api/reservation/create", {
@@ -75,7 +77,7 @@ const Review = ({ successMessage, setSuccessMessage }) => {
       }
     }} />;
   }
-
+ console.log("voir element",address)
   return (
     <div className={"details__wrapper"}>
       <style jsx>{`
@@ -104,7 +106,7 @@ const Review = ({ successMessage, setSuccessMessage }) => {
           <h1 className="custom-heading">Résumé de votre trajet </h1>
           <p className="custom-text"><strong>Trajet :</strong> De {address.departureCity} → {address.arrivalCity} <strong> </strong> {" "}<AccessTimeIcon style={{ fontSize: 16 }}/>  :{details.horaire}</p> 
           <p className="custom-text"><strong>Tarif :</strong> {address.tarif} FCFA</p>
-          <p className="custom-text"><strong>Numéro de siège :</strong> {details.seatNumber}</p>
+          <p className="custom-text"><strong>Numéro de siège :</strong> {address.seat}</p>
           <p className="custom-text"><strong>Date de départ :</strong> Pour le {formattedDate}</p>
         </Col>
         
