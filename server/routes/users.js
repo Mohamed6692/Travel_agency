@@ -178,7 +178,6 @@ router.get(
 //GET CLIENT WITHOUT PAGINATION
 router.get(
   "/clients-no-pagination",
-  auth,
   CatchAsyncError(async (req, res, next) => {
     try {
       let clients = await User.find({ isAdmin: false })
@@ -371,22 +370,25 @@ router.post(
 
 
 
-// URL : http://localhost:5001/api/users/make-admin-by-email
+// URL : http://localhost:5001/api/users/make/6xxxxxxxxx
 // METHOD : PUT
 // REQUEST : { email }
 // RESPONSE SUCCESS : STATUS - 200
 // RESPONSE ERROR : STATUS - 400 | 404
 router.put(
-  "/make-admin-by-email",
+  "/make/:id",
+  auth, // Vérification d'authentification
   CatchAsyncError(async (req, res, next) => {
+    console.log("make-admin-by-id");
     try {
-      const { email } = req.body;
+      const { id } = req.params;
 
-      if (!email) {
-        return next(new Errors("Email est requis", 400));
+      if (!id) {
+        return next(new Errors("ID est requis", 400));
       }
 
-      const user = await User.findOne({ email });
+      const user = await User.findById(id);
+      console.log("Utilisateur trouvé :", user);
       if (!user) return next(new Errors("Utilisateur non trouvé", 404));
 
       user.isAdmin = true;
@@ -402,6 +404,7 @@ router.put(
     }
   })
 );
+
 
 
 module.exports = router;
