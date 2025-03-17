@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
+import axios from "axios";
 import { Button, MenuItem, Select } from "@mui/material";
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import MultiStepFromContext from "./MultiStepFromContext";
@@ -7,6 +8,39 @@ import { Typography } from "@mui/material";
 
 const StepTwo = () => {
   const { address, details, setDetails, next, prev } = useContext(MultiStepFromContext);
+  const [trajetData, setTrajetData] = useState([]);
+
+  console.log("addres",address);
+
+  // Chargement des trajets depuis l'API
+  useEffect(() => {
+    const fetchTrajets = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`);
+        console.log("Réponse reçue :", response.data);
+
+        if (response.data.success) {
+          const allTrajets = response.data.trajets;
+
+          if (address.departureCity && address.arrivalCity) {
+            const filteredTrajets = allTrajets.filter(
+              trajet =>
+                trajet.origine.toLowerCase() === address.departureCity.toLowerCase() &&
+                trajet.destination.toLowerCase() === address.arrivalCity.toLowerCase()
+            );
+            setTrajetData(filteredTrajets);
+          } else {
+            setTrajetData(allTrajets);
+          }
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des trajets :", error);
+      }
+    };
+
+    fetchTrajets();
+  }, [address.departureCity, address.arrivalCity]);
+
 
   return (
     <Formik
@@ -40,9 +74,18 @@ const StepTwo = () => {
                 value={values.horaire}
                 onChange={(e) => setFieldValue("horaire", e.target.value)}
               >
-                {address.horaires.map((horaire) => (
-                  <FormControlLabel key={horaire} value={horaire} control={<Radio />} label={horaire} />
-                ))}
+                {trajetData.length > 0 ? (
+                  trajetData.map((trajet, index) => (
+                    <FormControlLabel 
+                      key={index} 
+                      value={trajet.horaire_depart} 
+                      control={<Radio />} 
+                      label={`${trajet.horaire_depart} → ${trajet.horaire_arrivee}`} 
+                    />
+                  ))
+                ) : (
+                  <Typography variant="body1">Aucun horaire disponible</Typography>
+                )}
               </RadioGroup>
             </FormControl>
             <p className="error__feedback">{errors.horaire}</p>

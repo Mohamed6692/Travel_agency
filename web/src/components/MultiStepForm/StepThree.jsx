@@ -6,11 +6,33 @@ import axios from "axios";
 
 const StepThree = () => {
   const { address, setAddress, next, prev } = useContext(MultiStepFromContext);
-  const [selectedSeat, setSelectedSeat] = useState(null);
+  const [availableSeats, setAvailableSeats] = useState([]);
 
-    console.log("voir element",address)
-    // Génération des numéros de sièges en fonction de address.seat
-    const availableSeats = Array.from({ length: address.seat }, (_, i) => i + 1);
+  useEffect(() => {
+    if (address.departureCity && address.arrivalCity && address.date) {
+      console.log("Fetching available seats...");
+      axios
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation`, {
+          params: {
+            departureCity: address.departureCity,
+            arrivalCity: address.arrivalCity,
+            date: address.date,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            const reservedSeats = response.data.reservations.map(seat => seat.toString());
+            const totalSeats = address.seat || 0;
+            const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
+            const filteredSeats = allSeats.filter(seat => !reservedSeats.includes(seat));
+            setAvailableSeats(filteredSeats);
+          }
+        })
+        .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
+    }
+  }, [address.departureCity, address.arrivalCity, address.date, address.seat]);
+
+
 
   return (
     <Formik

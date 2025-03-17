@@ -2,6 +2,8 @@ node_modules
 Dockerfile
 .dockerignore
 
+#SptepOne 
 #http://localhost:5001/api/users/clients-no-pagination get all users
 
+#Two
 #// http://localhost:5001/api/users/make/6xxxxxxxxx     update user to postman

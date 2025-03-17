@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CAvatar, CBadge, CButton, CCollapse, CSmartTable, CModal, CModalBody, CModalFooter, CModalHeader, CToast, CToastBody, CToastHeader } from "@coreui/react-pro";
+import { CAvatar, CBadge, CButton, CCollapse, CSmartTable, CModal, CModalBody, CModalFooter, CModalHeader, CToast, CToastBody, CToastHeader,CAlert } from "@coreui/react-pro";
 import axios from "axios";
 import Typography from '@mui/material/Typography'; // Import Typography
 import io from "socket.io-client"; // Import socket.io-client
@@ -31,6 +31,16 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
   const [showModal, setShowModal] = useState(false);
   const [vehiculeToDelete, setVehiculeToDelete] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); // Pour afficher le message de succès
+  const [errorMessage, setErrorMessage] = useState(""); // Pour afficher le message d'erreur
+  const [alert, setAlert] = useState({ message: "", color: "" });
+
+  const showAlert = (message, color) => {
+    setAlert({ message, color });
+    setTimeout(() => {
+      setAlert({ message: "", color: "" });
+    }, 3000);
+  };
+
 
   // Fetch vehicles with Bearer token
   const fetchVehicules = async (page = 1) => {
@@ -38,6 +48,7 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
 
     // Récupérer le token d'authentification depuis le localStorage
     const token = localStorage.getItem("token");
+    console.log("Token récupéré:", localStorage.getItem("token"));
 
     try {
       // Effectuer la requête GET avec le token dans l'en-tête Authorization
@@ -64,38 +75,24 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
   }
 };
   
-
-  const deleteVehicule = async (id) => {
+ const deleteVehicule = async (id) => {
     try {
       const token = localStorage.getItem("token");
-  
       const { data } = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/vehicule/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-  
-  
-      // Afficher le message de succès
-      setSuccessMessage(data.message);
-  
-      // Rafraîchir la liste des véhicules après suppression
+
+      showAlert(data.message, "success");
       fetchVehicules();
-  
-      // Fermer le modal après suppression
       setShowModal(false);
-  
-      // Masquer le message de succès après 3 secondes
-      setTimeout(() => {
-        setSuccessMessage("");  // Effacer le message après 3 secondes
-      }, 3000);  // Délai de 3000 millisecondes (3 secondes)
     } catch (error) {
-      console.error("Erreur lors de la suppression du véhicule :", error);
+      showAlert(error.response ? error.response.data.message : "Une erreur inconnue est survenue", "danger");
     }
   };
-  
 
+
+
+ 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       fetchVehicules(); // Charge les véhicules si un token est présent
@@ -150,8 +147,10 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
     );
   };
 
+  console.log("erreur:", errorMessage);
   return (
     <>
+   
       <CSmartTable
         columns={columns}
         items={vehicules}
@@ -243,9 +242,16 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
         onClose={() => setShowModal(false)}
         alignment="center"
       >
-        <CModalHeader>Confirmation de suppression</CModalHeader>
+        <CModalHeader>Confirmation de suppression  </CModalHeader>
+        
+
         <CModalBody>
           <Typography>Êtes-vous sûr de vouloir supprimer ce véhicule ?</Typography>
+          {alert.message && (
+            <CAlert color={alert.color} dismissible onClose={() => setAlert({ message: "", color: "" })}>
+              {alert.message}
+            </CAlert>
+          )}
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setShowModal(false)}>
@@ -256,14 +262,9 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
           </CButton>
         </CModalFooter>
       </CModal>
+     
+     
 
-      {/* Affichage du message de succès */}
-      {successMessage && (
-        <CToast color="success" className="text-white">
-          <CToastHeader closeButton>Succès</CToastHeader>
-          <CToastBody>{successMessage}</CToastBody>
-        </CToast>
-      )}
 
       {/* Pagination personnalisée avec CoreUI */}
        <div className="d-flex justify-content-center my-3">

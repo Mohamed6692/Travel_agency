@@ -17,7 +17,8 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import { useNavigate } from 'react-router-dom';
-
+import { CSpinner } from '@coreui/react';
+import { useState } from 'react';
 // Définir la configuration de la navigation
 export const NAVIGATION = [
   {
@@ -98,40 +99,37 @@ export const NAVIGATION = [
       },
     ],
   },
-  { segment: 'logout', title: 'Déconnexion', icon: <LogoutIcon /> }
+  { segment: 'admin/logout', title: 'Déconnexion', icon: <LogoutIcon /> }
 ];
 
 // Composant SidebarNavigation qui génère la navigation dynamique
 function SidebarNavigation() {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); 
-
+  // Fonction de déconnexion
   const handleLogout = async () => {
-    console.log("Déconnexion en cours...");
-    try {
-      const token = localStorage.getItem("token");
+    setLoading(true); // Activer le spinner
 
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL+"/api/auth/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        localStorage.clear();
-        navigate("/login");
-      } else {
-        console.error("Échec de la déconnexion :", await response.json());
-      }
-    } catch (error) {
-      console.error("Erreur lors de la déconnexion :", error);
-    }
+    // Simuler une requête de déconnexion ou un processus
+    setTimeout(() => {
+      // Rediriger vers la page de login après la déconnexion
+      navigate('/login');
+      setLoading(false); // Désactiver le spinner
+    }, 2000); // Simuler un délai de 2 secondes pour la déconnexion
   };
 
   return (
     <List>
-      // a voir si on peut ajouter un logo    
+      {/* Autres éléments de la liste */}
+      <ListItem button onClick={handleLogout}>
+        <LogoutIcon />
+        <ListItemText primary="Déconnexion" />
+      </ListItem>
+      {loading && (
+        <div style={{ textAlign: 'center', padding: '10px' }}>
+          <CSpinner />
+        </div>
+      )}  
     </List>
   );
 }

@@ -67,6 +67,7 @@ const MultiStepForm = () => {
         sx={{ 
           width: '100%', 
           marginBottom: '10%', 
+          marginTop: '10%',
           display: 'flex', 
           justifyContent: 'center', 
           alignItems: 'center', 
@@ -88,7 +89,7 @@ const MultiStepForm = () => {
           </Stepper>
         </Box>
         
-        <div className="form-container" style={{ marginTop: "" ,marginLeft: "4%"}}>
+        <div className="form-container" style={{ marginTop: "2%" ,marginLeft: ""}}>
           {renderStep(currentStep, successMessage, setSuccessMessage)}
         </div>
 

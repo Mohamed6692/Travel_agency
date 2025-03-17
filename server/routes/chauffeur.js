@@ -1,6 +1,7 @@
 const express = require("express");
 const { io } = require("../index"); 
 const Chauffeur = require("../models/Chauffeur");
+const Trajet = require("../models/Trajet"); 
 const auth = require("../middleware/auth");
 const router = express.Router();
 const formidable = require("formidable");
@@ -117,15 +118,44 @@ router.delete(
   auth,
   CatchAsyncError(async (req, res, next) => {
     try {
+      // Vérifier si le chauffeur est associé à un trajet
+      const trajetAssocie = await Trajet.findOne({ chauffeur_id: req.params.id });
+
+      if (trajetAssocie) {
+        return res.status(400).json({
+          success: false,
+          message: "Ce chauffeur est affecté à un trajet et ne peut pas être supprimé.",
+        });
+      }
+
       const io = req.app.get("socketio");
       const chauffeur = await Chauffeur.findByIdAndDelete(req.params.id);
+
+      if (!chauffeur) {
+        return res.status(404).json({
+          success: false,
+          message: "Chauffeur non trouvé",
+        });
+      }
+
       io.emit("chauffeur:update", { type: "delete", id: req.params.id });
-      res.status(201).json({ success: true, message: "Chauffeur supprimé", chauffeur });
+
+      return res.status(200).json({
+        success: true,
+        message: "Chauffeur supprimé avec succès",
+        chauffeur,
+      });
+
     } catch (error) {
-      next(new Errors(error.message, 400));
+      return res.status(500).json({
+        success: false,
+        message: "Une erreur est survenue lors de la suppression du chauffeur.",
+        error: error.message,
+      });
     }
   })
 );
+
 
 // DELETE MULTIPLE Chauffeurs
 router.post(

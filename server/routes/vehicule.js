@@ -1,6 +1,7 @@
 const express = require("express");
 const { io } = require("../index"); 
 const Vehicule = require("../models/Vehicule");
+const Trajet = require("../models/Trajet"); 
 const auth = require("../middleware/auth");
 const router = express.Router();
 const formidable = require("formidable");
@@ -127,15 +128,46 @@ router.delete(
   auth,
   CatchAsyncError(async (req, res, next) => {
     try {
+      // Vérifier si le véhicule est associé à un trajet
+      const trajetAssocie = await Trajet.findOne({ vehicule_id: req.params.id });
+
+      if (trajetAssocie) {
+        console.log("Ce véhicule est associé à un trajet et ne peut pas être supprimé.");
+        return res.status(400).json({
+          success: false,
+          message: "Ce véhicule est affecté à un trajet et ne peut pas être supprimé.",
+        });
+      }
+
       const io = req.app.get("socketio");
       const vehicule = await Vehicule.findByIdAndDelete(req.params.id);
+
+      if (!vehicule) {
+        return res.status(404).json({
+          success: false,
+          message: "Véhicule non trouvé",
+        });
+      }
+
       io.emit("vehicule:update", { type: "delete", id: req.params.id });
-      res.status(201).json({ success: true, message: "Chauffeur supprimé", vehicule });
+
+      return res.status(200).json({
+        success: true,
+        message: "Véhicule supprimé avec succès",
+        vehicule,
+      });
+
     } catch (error) {
-      next(new Errors(error.message, 400));
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Une erreur est survenue lors de la suppression du véhicule.",
+        error: error.message,
+      });
     }
   })
 );
+
 
 // DELETE MULTIPLE VEHICLES
 router.post(

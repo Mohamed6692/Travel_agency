@@ -7,12 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { Alert, Stack } from '@mui/material'; // Importer les composants MUI
 import MethodePaiement from "../MethodePaiement";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+
+
 const Review = ({ successMessage, setSuccessMessage }) => {
   const { details, address, prev } = useContext(MultiStepFromContext);
   const [showPaymentMethods, setShowPaymentMethods] = useState(false);
   const [showTicket, setShowTicket] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  console.log("details",details);
+  console.log("address",address);
 
   const handleSubmit = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -104,7 +109,7 @@ const Review = ({ successMessage, setSuccessMessage }) => {
       <Row>
         <Col span={24}>
           <h1 className="custom-heading">Résumé de votre trajet </h1>
-          <p className="custom-text"><strong>Trajet :</strong> De {address.departureCity} → {address.arrivalCity} <strong> </strong> {" "}<AccessTimeIcon style={{ fontSize: 16 }}/>  :{details.horaire}</p> 
+          <p className="custom-text"><strong>Trajet :</strong> De {address.departureCity} → {address.arrivalCity} <strong> </strong> {" "}<AccessTimeIcon style={{ fontSize: 16 }}/>  :{address.horaires?.[0]}</p> 
           <p className="custom-text"><strong>Tarif :</strong> {address.tarif} FCFA</p>
           <p className="custom-text"><strong>Numéro de siège :</strong> {address.seat}</p>
           <p className="custom-text"><strong>Date de départ :</strong> Pour le {formattedDate}</p>

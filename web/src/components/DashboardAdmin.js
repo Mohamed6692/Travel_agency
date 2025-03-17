@@ -94,6 +94,7 @@ function DashboardAdmin(props) {
             <Route path="client" element={<Client />} />
             <Route path="admins" element={<Admin />} />
             <Route path="planing" element={<Planification/>}/>
+            <Route path="logout" element={<Navigate to="/login" />} />
           </Routes>
         
       </DashboardLayout>

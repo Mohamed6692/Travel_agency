@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CAvatar, CBadge, CButton, CCollapse, CSmartTable, CModal, CModalBody, CModalFooter, CModalHeader, CToast, CToastBody, CToastHeader } from "@coreui/react-pro";
+import { CAvatar, CBadge, CButton, CCollapse, CSmartTable, CModal, CModalBody, CModalFooter, CModalHeader, CToast, CToastBody, CToastHeader,CAlert } from "@coreui/react-pro";
 import axios from "axios";
 import { CPagination, CPaginationItem } from "@coreui/react";
 import Typography from '@mui/material/Typography'; // Import Typography
@@ -31,6 +31,14 @@ export const ConducteurSmartTable = ({ onEdit, refreshTable }) => {
   const [showModal, setShowModal] = useState(false);
   const [chauffeurToDelete, setchauffeurToDelete] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); // Pour afficher le message de succès
+  const [alert, setAlert] = useState({ message: "", color: "" });
+
+  const showAlert = (message, color) => {
+    setAlert({ message, color });
+    setTimeout(() => {
+      setAlert({ message: "", color: "" });
+    }, 3000);
+  };
 
 
 
@@ -44,24 +52,15 @@ export const ConducteurSmartTable = ({ onEdit, refreshTable }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+   
   
-      console.log("Véhicule supprimé", data);
-  
-      // Afficher le message de succès
-      setSuccessMessage(data.message);
-  
+      showAlert(data.message, "success");
       // Rafraîchir la liste des véhicules après suppression
       fetchConducteurs();
-  
-      // Fermer le modal après suppression
       setShowModal(false);
-  
-      // Masquer le message de succès après 3 secondes
-      setTimeout(() => {
-        setSuccessMessage("");  // Effacer le message après 3 secondes
-      }, 3000);  // Délai de 3000 millisecondes (3 secondes)
     } catch (error) {
-      console.error("Erreur lors de la suppression du véhicule :", error);
+      showAlert(error.response ? error.response.data.message : "Une erreur inconnue est survenue", "danger");
     }
   };
 
@@ -205,6 +204,11 @@ export const ConducteurSmartTable = ({ onEdit, refreshTable }) => {
      <CModalHeader>Confirmation de suppression</CModalHeader>
      <CModalBody>
        <Typography>Êtes-vous sûr de vouloir supprimer ce véhicule ?</Typography>
+        {alert.message && (
+          <CAlert color={alert.color} dismissible onClose={() => setAlert({ message: "", color: "" })}>
+            {alert.message}
+          </CAlert>
+        )}
      </CModalBody>
      <CModalFooter>
        <CButton color="secondary" onClick={() => setShowModal(false)}>
@@ -216,13 +220,7 @@ export const ConducteurSmartTable = ({ onEdit, refreshTable }) => {
      </CModalFooter>
    </CModal>
 
-   {/* Affichage du message de succès */}
-   {successMessage && (
-     <CToast color="success" className="text-white">
-       <CToastHeader closeButton>Succès</CToastHeader>
-       <CToastBody>{successMessage}</CToastBody>
-     </CToast>
-   )}
+ 
 
    {/* Pagination personnalisée avec CoreUI */}
     <div className="d-flex justify-content-center my-3">

@@ -13,6 +13,8 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import AddRoadIcon from '@mui/icons-material/AddRoad';
 import AirlineSeatLegroomReducedIcon from '@mui/icons-material/AirlineSeatLegroomReduced';
 import DatePicker from "react-datepicker";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+
 import "react-datepicker/dist/react-datepicker.css"; // Import du style de react-datepicker
 import { io } from "socket.io-client";
 import { CButton, CModal,CModalBody, CModalFooter, CFormSelect, CModalHeader, CModalTitle, CForm, CFormInput } from "@coreui/react";
@@ -23,6 +25,26 @@ import { useLocation } from 'react-router-dom';
 import { Switch } from '@mui/material';
 import { CFormCheck } from '@coreui/react'
 const socket = io(process.env.REACT_APP_BACKEND_URL+"");
+
+
+
+
+const CustomInput = ({ value, onClick }) => (
+  <div className="input-group">
+    <input 
+      type="text" 
+      className="form-control" 
+      value={value} 
+      readOnly 
+      onClick={onClick} 
+      placeholder="Sélectionnez une date" 
+    />
+    <span className="input-group-text" onClick={onClick} style={{ cursor: 'pointer' }}>
+      <CalendarTodayIcon />
+    </span>
+  </div>
+);
+
 
 const Reservation = () => {
   const navigate = useNavigate();
@@ -398,17 +420,16 @@ console.log("donnee passe forma :", formData);
             
 
             <CCol md={6}>
-            <label htmlFor="date">Date</label>
-            <DatePicker
-              selected={formData.date ? new Date(formData.date) : null}
-              onChange={(date) => setFormData({ ...formData, date: date.toISOString().split("T")[0] })}
-              dateFormat="yyyy-MM-dd"
-              className="form-control" // Assure la cohérence avec le style de CoreUI
-              placeholderText="Sélectionnez une date"
-            />
+              <label htmlFor="date">Date</label>
+              <DatePicker
+                selected={formData.date ? new Date(formData.date) : null}
+                onChange={(date) => setFormData({ ...formData, date: date.toISOString().split("T")[0] })}
+                dateFormat="yyyy-MM-dd"
+                customInput={<CustomInput />}
+              />
               {formErrors.date && <small style={{ color: 'red' }}>{formErrors.date}</small>}
-          </CCol>
-
+            </CCol>
+            
             <CCol md={6}>
               <label htmlFor="seatNumber">Numéro de siège</label>
               <CFormSelect id="seatNumber" name="seatNumber" value={formData.seatNumber} onChange={handleChange} required>

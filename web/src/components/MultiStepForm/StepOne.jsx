@@ -33,47 +33,21 @@ const StepOne = () => {
       })
       .catch((error) => console.error("Erreur lors du chargement des trajets:", error));
   }, []);
-//seat
-  useEffect(() => {
-    if (address.departureCity && address.arrivalCity && address.date) {
-      console.log("Récupération des sièges réservés");
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${address.departureCity}&arrivalCity=${address.arrivalCity}&date=${address.date}`)
-        .then((response) => {
-          if (response.data.success) {
-            const reservedSeats = response.data.reservations.map((seat) => seat.toString());
-            const selectedTrajet = trajets.find(
-              (t) => t.origine === address.departureCity && t.destination === address.arrivalCity
-            );
-  
-            if (selectedTrajet && selectedTrajet.vehicule_id) {
-              const capacite = selectedTrajet.vehicule_id.capacite || 0;
-              const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
-              const availableSeats = allSeats.filter((seat) => !reservedSeats.includes(seat.toString()));
-  
-              setSeatNumbers(availableSeats);
-              setAddress({ ...address, seatNumbers: availableSeats }); // Mettre à jour le contexte
-            }
-          }
-        })
-        .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
-    }
-  }, [address.departureCity, address.arrivalCity, address.date, trajets]);
 
   
-  //depart
-  const handleDepartureChange = (e, setFieldValue) => {
-    const departure = e.target.value;
-    setSelectedDeparture(departure);
-    setFieldValue("departureCity", departure);
+    //depart
+    const handleDepartureChange = (e, setFieldValue) => {
+      const departure = e.target.value;
+      setSelectedDeparture(departure);
+      setFieldValue("departureCity", departure);
 
-    const filteredArrivalCities = [...new Set(
-      trajets.filter((t) => t.origine === departure).map((t) => t.destination)
-    )];
+      const filteredArrivalCities = [...new Set(
+        trajets.filter((t) => t.origine === departure).map((t) => t.destination)
+      )];
 
-    setArrivalCities(filteredArrivalCities);
-    setFieldValue("arrivalCity", ""); // Réinitialisation
-  };
+      setArrivalCities(filteredArrivalCities);
+      setFieldValue("arrivalCity", ""); // Réinitialisation
+    };
 
   //arrival
   const handleArrivalChange = (e, setFieldValue, values) => {
@@ -186,12 +160,6 @@ const StepOne = () => {
               <p className="error__feedback">{errors.date}</p>
             </div>
           </div>
-{/* Affichage de la capacité du véhicule */}
-{vehiculeCapacite && (
-  <Typography variant="body1" style={{ marginTop: "10px", fontWeight: "bold" }}>
-    Capacité du véhicule : {vehiculeCapacite} sièges
-  </Typography>
-)}
           {/* Boutons */}
           <div className="form__item button__items d-flex justify-content-between">
             <Button variant="contained" color="primary" onClick={handleSubmit}>
