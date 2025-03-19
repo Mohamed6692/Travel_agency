@@ -377,7 +377,7 @@ router.post(
 // RESPONSE ERROR : STATUS - 400 | 404
 router.put(
   "/make/:id",
-  auth, // Vérification d'authentification
+  // Vérification d'authentification
   CatchAsyncError(async (req, res, next) => {
     console.log("make-admin-by-id");
     try {

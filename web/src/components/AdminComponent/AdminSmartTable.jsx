@@ -148,7 +148,7 @@ function AdminSmartTable() {
             size="sm"
             onClick={() => toggleDetails(item._id)}
              >
-            {details.includes(item._id) ? "Cacher" : "Voir action"}
+            {details.includes(item._id) ? "Cacher" : "action"}
              </CButton>
              </td>
         ),

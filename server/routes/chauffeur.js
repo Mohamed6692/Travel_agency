@@ -43,6 +43,7 @@ router.post(
 // GET ALL CHAUFFEURS avec pagination
 router.get(
   "/all",
+  auth,
   CatchAsyncError(async (req, res, next) => {
     try {
       let page = parseInt(req.query.page);

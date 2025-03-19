@@ -5,23 +5,25 @@ function Completion() {
   const [reservation, setReservation] = useState(null);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("reservationDatas");
+    const storedData = localStorage.getItem("reservationData"); // ✅ Correction ici
     if (storedData) {
-      setReservation(JSON.parse(storedData));
+      try {
+        const parsedData = JSON.parse(storedData);
+        setReservation(parsedData);
+      } catch (error) {
+        console.error("Erreur de parsing des données de réservation :", error);
+      }
     }
   }, []);
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <h1 style={{ fontSize: "1.8rem" }}>Merci pour votre réservation ! 🎉</h1>
-      
-      {reservation ? (
-        <>
-          {/* 🔥 Passer les données au TicketGenerator */}
-          <TicketGenerator reservationData={reservation} />
-        </>
+
+      {reservation && Object.keys(reservation).length > 0 ? (
+        <TicketGenerator reservationData={reservation} />
       ) : (
-        <p>Chargement des informations...</p>
+        <p>Aucune information de réservation trouvée.</p>
       )}
     </div>
   );

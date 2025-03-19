@@ -9,12 +9,14 @@ const TicketGenerator = ({ reservationData }) => {
   const barcodeRef = useRef(null);
   const [reservationDate, setReservationDate] = useState(null);
 
+  console.log("reservationData", reservationData);
+
   useEffect(() => {
     if (reservationData) {
       setReservationDate(new Date().toLocaleDateString("fr-FR"));
 
-      if (barcodeRef.current) {
-        JsBarcode(barcodeRef.current, reservationData.details.seatNumber, {
+      if (barcodeRef.current && reservationData.seatNumber) {
+        JsBarcode(barcodeRef.current, reservationData.seatNumber, {
           format: "CODE128",
           displayValue: true,
           fontSize: 14,
@@ -28,9 +30,7 @@ const TicketGenerator = ({ reservationData }) => {
 
   if (!reservationData) return <p>Aucune réservation trouvée.</p>;
 
-  const { address, details } = reservationData;
-
-  const formattedDate = new Date(address.date).toLocaleDateString("fr-FR", {
+  const formattedDate = new Date(reservationData.date).toLocaleDateString("fr-FR", {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -82,9 +82,9 @@ const TicketGenerator = ({ reservationData }) => {
       <div ref={ticketRef} className="ticket-container">
         <h1 className="custom-heading">Ticket de Réservation 🎫</h1>
         <div className="ticket-details">
-          <p><strong>Trajet :</strong> {address.departureCity} → {address.arrivalCity}</p>
-          <p><strong>Horaire :</strong> {details.horaire}</p>
-          <p><strong>Numéro de siège :</strong> {details.seatNumber}</p>
+          <p><strong>Trajet :</strong> {reservationData.departureCity} → {reservationData.arrivalCity}</p>
+          <p><strong>Horaire :</strong> {reservationData.horaire}</p>
+          <p><strong>Numéro de siège :</strong> {reservationData.seatNumber}</p>
           <p><strong>Date de départ :</strong> {formattedDate}</p>
           <p><strong>Date de réservation :</strong> {reservationDate}</p>
         </div>

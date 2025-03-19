@@ -25,16 +25,24 @@ function Ville() {
   const fetchVilles = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/ville/all", {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/ville/all", {
+        method: "GET",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       });
-      console.log("Données des villes récupérées :", data); 
+  
+      if (!response.ok) {
+        throw new Error("Erreur lors de la récupération des villes");
+      }
+  
+      const data = await response.json(); // Convertir la réponse en JSON
+      console.log("Données des villes récupérées :", data);
       setVilles(data.villes || []);
     } catch (error) {
       console.error("Erreur lors de la récupération des villes :", error);
     }
     setLoading(false);
   };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,10 +71,22 @@ function Ville() {
     if (cityToDelete) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/ville/${cityToDelete}`, {
-          headers: { Authorization: `Bearer ${token}` },
+        const url = `${process.env.REACT_APP_BACKEND_URL}/api/ville/${cityToDelete}`;
+        const method = "DELETE" 
+    
+        const response = await fetch(url, {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
         });
-
+  
+        if (!response.ok) {
+          throw new Error("Erreur lors de la suppression de la ville");
+        }
+  
         setVilles((prevVilles) => prevVilles.filter((ville) => ville._id !== cityToDelete));
         setDeleteModalVisible(false); // Ferme le modal après la suppression
       } catch (error) {
@@ -74,6 +94,7 @@ function Ville() {
       }
     }
   };
+  
 
   const handleSubmit = async () => {
     if (!validateForm()) return;

@@ -250,7 +250,7 @@ const Reservation = () => {
       .catch((error) => {
         console.error("Erreur lors du chargement des trajets :", error);
       });
-  }, [trajetData]);
+  }, []);
 
 //list de trajet
 const fetchTrajets = async () => {
@@ -357,7 +357,13 @@ const fetchTrajets = async () => {
     }
   }, [location.state, trajets]);
   
-
+  const handleHoraireChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      horaire: e.target.value,
+    }));
+  };
+  
 
 // Vérifie si un trajet est sélectionné
 const trajetSelectionne = trajets.length > 0 ? trajets[0] : null; 
