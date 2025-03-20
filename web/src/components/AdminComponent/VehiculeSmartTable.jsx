@@ -5,7 +5,12 @@ import Typography from '@mui/material/Typography'; // Import Typography
 import io from "socket.io-client"; // Import socket.io-client
 import { CPagination, CPaginationItem } from "@coreui/react";
 
-const socket = io(process.env.REACT_APP_BACKEND_URL+""); // Set up socket connection with your backend
+// const socket = io(process.env.REACT_APP_BACKEND_URL+""); // Set up socket connection with your backend
+// const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);
+const socket = io(`${process.env.REACT_APP_BACKEND_URL}`, {
+  transports: ["websocket"],
+  withCredentials: true,
+});
 
 const getBadge = (status) => {
   switch (status) {
@@ -41,31 +46,44 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
     }, 3000);
   };
 
+// Fetch vehicles with Bearer token
+const fetchVehicules = async (page = 1) => {
+  setLoading(true);
 
-  // Fetch vehicles with Bearer token
-  const fetchVehicules = async (page = 1) => {
-    setLoading(true);
+  // Récupérer le token d'authentification depuis le localStorage
+  const token = localStorage.getItem("token");
+  console.log("Token récupéré:", token);
 
-    // Récupérer le token d'authentification depuis le localStorage
-    const token = localStorage.getItem("token");
-    console.log("Token récupéré:", localStorage.getItem("token"));
-
-    try {
-      // Effectuer la requête GET avec le token dans l'en-tête Authorization
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/vehicule/all?page=${page}&limit=5`, {
+  try {
+    // Effectuer la requête GET avec le token dans l'en-tête Authorization
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/vehicule/all?page=${page}&limit=5`,
+      {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Ajout du token Bearer
+          Authorization: `Bearer ${token}`,
         },
-      });
-      setVehicules(data.vehicules || []);
-      setPages(data.pages || 1);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des véhicules :", error);
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
     }
 
-    setLoading(false);
-  };
+    // Convertir la réponse en JSON
+    const data = await response.json();
+
+    // Mettre à jour l'état avec les données récupérées
+    setVehicules(data.vehicules || []);
+    setPages(data.pages || 1);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des véhicules :", error);
+  }
+
+  setLoading(false);
+};
+
 
   //pagination
  // Fonction de changement de page
@@ -75,20 +93,39 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
   }
 };
   
- const deleteVehicule = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/vehicule/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+const deleteVehicule = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    console.log("Token récupéré:", token);
 
-      showAlert(data.message, "success");
-      fetchVehicules();
-      setShowModal(false);
-    } catch (error) {
-      showAlert(error.response ? error.response.data.message : "Une erreur inconnue est survenue", "danger");
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/vehicule/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Erreur HTTP ${response.status}: ${
+          (await response.json()).message || "Une erreur est survenue"
+        }`
+      );
     }
-  };
+
+    const data = await response.json();
+
+    showAlert(data.message, "success");
+    fetchVehicules(); // Recharger la liste des véhicules après suppression
+    setShowModal(false);
+  } catch (error) {
+    showAlert(error.message || "Une erreur inconnue est survenue", "danger");
+  }
+};
 
 
 
@@ -100,6 +137,7 @@ export const VehiculeSmartTable = ({ onEdit, refreshTable }) => {
 
     socket.on("vehicule:update", (data) => {
       if (data.type === "create") {
+        console.log("data.vehicule: creat", data.vehicule);
         setVehicules((prev) => [...prev, data.vehicule]); 
       } else if (data.type === "update") {
         setVehicules((prev) => prev.map((vehicule) => 

@@ -65,22 +65,36 @@ function Chauffeur() {
   }, [token]);
   
 
-  // Fonction pour récupérer les chauffeurs
-  const fetchChauffeurs = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/chauffeur/all", {
+// Fonction pour récupérer les chauffeurs
+const fetchChauffeurs = async () => {
+  setLoading(true);
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/all`,
+      {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      });
-      setChauffeurs(data.Chauffeurs || []);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des chauffeurs :", error);
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Erreur HTTP ${response.status}: ${
+          (await response.json()).message || "Une erreur est survenue"
+        }`
+      );
     }
-    setLoading(false);
-  };
+
+    const data = await response.json();
+    setChauffeurs(data.Chauffeurs || []);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des chauffeurs :", error);
+  }
+  setLoading(false);
+};
 
   // Fonction pour rafraîchir la table des chauffeurs
   const refreshTable = () => {
@@ -146,26 +160,37 @@ function Chauffeur() {
       setErrors({ api: "Authentification requise. Veuillez vous reconnecter." });
       return;
     }
-
+  
     try {
       const url = editMode
         ? `${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/${selectedChauffeurId}`
-        : process.env.REACT_APP_BACKEND_URL+"/api/chauffeur/create";
+        : `${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/create`;
       
       const method = editMode ? "PUT" : "POST";
-
-      const response = await axios({
+  
+      const response = await fetch(url, {
         method,
-        url,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        data: formData,
+        body: JSON.stringify(formData),
       });
-
-      if (response.data.success) {
+  
+      if (!response.ok) {
+        throw new Error(
+          `Erreur HTTP ${response.status}: ${
+            (await response.json()).message || "Une erreur est survenue"
+          }`
+        );
+      }
+  
+      const data = await response.json();
+  
+      if (data.success) {
         setSuccessMessage(editMode ? "Chauffeur modifié avec succès !" : "Chauffeur créé avec succès !");
+        
+        // Réinitialisation du formulaire
         setFormData({
           nom: "",
           prenom: "",
@@ -176,7 +201,7 @@ function Chauffeur() {
           documents: { cin: "", passeport: "" },
           isCIN: true,
         });
-
+  
         setTimeout(() => {
           setSuccessMessage("");
           setVisible(false);
@@ -187,10 +212,11 @@ function Chauffeur() {
       }
     } catch (error) {
       setErrors({
-        api: error.response?.data?.message || "Erreur lors du traitement.",
+        api: error.message || "Erreur lors du traitement.",
       });
     }
   };
+  
 
   return (
     <Box p={3}>

@@ -187,86 +187,97 @@ const Reservation = () => {
       arrivalCity: selectedTrajet.destination,
       date: formData.date,
       tarif: selectedTrajet.prix,
-      horaire:  formData.horaire,
+      horaire: formData.horaire,
       seatNumber: formData.seatNumber,
       user: localStorage.getItem("userId"),
       paymentStatus: "incomplet", // Définition par défaut
     };
-
-    console.log("Données de réservation :", reservationData);
-    e.preventDefault();
-    if (validateForm()) {
-    try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/api/reservation/create", reservationData, {
-        headers: {
-          "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Assurez-vous d'envoyer le token d'authentification
-        },
-      });
   
-      if (response.data.success) {
-        // alert("Réservation effectuée avec succès !");
-        setSuccessMessage(response.data.message);
-      
-         // Stocker l'ID de la réservation dans le localStorage
-        console.log("ID de la réservation stocké :", response.data.reservation._id);
-        localStorage.setItem("reservationId", response.data.reservation._id);
-        localStorage.setItem("reservationData", JSON.stringify(reservationData));
-        // Rediriger vers la page de paiement
-        setTimeout(() => {
-          setVisible(false); // Fermer la modal après succès
-          navigate("/Paiement"); // Redirige après 30 secondes
-        }, 1000);
-        
-      } else {
-        alert("Échec de la réservation, veuillez réessayer.");
+    console.log("Données de réservation :", reservationData);
+  
+    // Validation du formulaire avant soumission
+    if (validateForm()) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Assurez-vous d'envoyer le token d'authentification
+          },
+          body: JSON.stringify(reservationData),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP ${response.status}`);
+        }
+  
+        const data = await response.json();
+        if (data.success) {
+          // Afficher le message de succès
+          setSuccessMessage(data.message);
+          
+          // Stocker l'ID de la réservation et les données dans le localStorage
+          console.log("ID de la réservation stocké :", data.reservation._id);
+          localStorage.setItem("reservationId", data.reservation._id);
+          localStorage.setItem("reservationData", JSON.stringify(reservationData));
+  
+          // Rediriger vers la page de paiement
+          setTimeout(() => {
+            setVisible(false); // Fermer la modal après succès
+            navigate("/Paiement"); // Redirige après 1 seconde
+          }, 1000);
+        } else {
+          alert("Échec de la réservation, veuillez réessayer.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la réservation :", error);
+        alert("Une erreur est survenue. Veuillez réessayer ou revoir le numéro de siège.");
       }
-    } catch (error) {
-      console.error("Erreur lors de la réservation :", error);
-      alert("Une erreur est survenue. Veuillez réessayer ou revoire le numero de siege.");
     }
-  }
   };
+  
 
 //fixe le depart
-  useEffect(() => {
-    
-    // Récupérer la liste des trajets depuis l'API
-    console.log("User ID stocké:", localStorage.getItem("user._id"));
-    console.log("Mise à jour des trajets :", trajetData);
-    axios
-      .get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all-no-pagination") // Mets l'URL correcte de ton API
-      .then((response) => {
-        if (response.data.success) {
-          setTrajets(response.data.trajets);
-        
-          // Extraire les villes de départ uniques
-          const uniqueDepartureCities = [
-            ...new Set(response.data.trajets.map((trajet) => trajet.origine)),
-          ];
-          setDepartureCities(uniqueDepartureCities);
-        }
-      })
-      .catch((error) => {
-        console.error("Erreur lors du chargement des trajets :", error);
-      });
-  }, []);
+useEffect(() => {
+  console.log("User ID stocké:", localStorage.getItem("user._id"));
+  console.log("Mise à jour des trajets :", trajetData);
+
+  fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        setTrajets(data.trajets);
+
+        // Extraire les villes de départ uniques
+        const uniqueDepartureCities = [
+          ...new Set(data.trajets.map((trajet) => trajet.origine)),
+        ];
+        setDepartureCities(uniqueDepartureCities);
+      }
+    })
+    .catch((error) => {
+      console.error("Erreur lors du chargement des trajets :", error);
+    });
+}, []);
+
 
 //list de trajet
 const fetchTrajets = async () => {
   try {
-    const response = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all-no-pagination");
-    console.log("Réponse reçue :", response.data);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`);
+    const data = await response.json();
 
-    if (response.data.success) {
-      // Récupérer tous les trajets
-      const allTrajets = response.data.trajets;
+    console.log("Réponse reçue :", data);
+
+    if (data.success) {
+      const allTrajets = data.trajets;
 
       // Appliquer le filtre seulement si les villes de départ et d'arrivée sont sélectionnées
       if (formData.departureCity && formData.arrivalCity) {
-        const filteredTrajets = allTrajets.filter(trajet => 
-          trajet.origine.toLowerCase() === formData.departureCity.toLowerCase() &&
-          trajet.destination.toLowerCase() === formData.arrivalCity.toLowerCase()
+        const filteredTrajets = allTrajets.filter(
+          (trajet) =>
+            trajet.origine.toLowerCase() === formData.departureCity.toLowerCase() &&
+            trajet.destination.toLowerCase() === formData.arrivalCity.toLowerCase()
         );
         setTrajetData(filteredTrajets);
       } else {
@@ -278,29 +289,34 @@ const fetchTrajets = async () => {
   }
 };
 
+
 //seat work
-  useEffect(() => {
-    if (formData.departureCity && formData.arrivalCity) {
-      fetchTrajets();
-    }
-    if (selectedTrajet && formData.date) {
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${selectedTrajet.origine}&arrivalCity=${selectedTrajet.destination}&date=${formData.date}`)
-        .then(response => {
-          if (response.data.success) {
-            const reservedSeatsList = response.data.reservations.map(seat => seat.toString()); // S'assurer que ce sont des strings
-            setReservedSeats(reservedSeatsList);
-  
-            // Mise à jour des sièges disponibles après récupération des réservations
-            const capacite = selectedTrajet.vehicule_id?.capacite || 0;
-            const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
-            const availableSeats = allSeats.filter(seat => !reservedSeatsList.includes(seat.toString()));
-            setSeatNumbers(availableSeats);
-          }
-        })
-        .catch(error => console.error("Erreur lors de la récupération des sièges réservés :", error));
-    }
-  }, [selectedTrajet, formData.date]);
+useEffect(() => {
+  if (formData.departureCity && formData.arrivalCity) {
+    fetchTrajets();
+  }
+
+  if (selectedTrajet && formData.date) {
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${selectedTrajet.origine}&arrivalCity=${selectedTrajet.destination}&date=${formData.date}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          const reservedSeatsList = data.reservations.map((seat) => seat.toString()); // S'assurer que ce sont des strings
+          setReservedSeats(reservedSeatsList);
+
+          // Mise à jour des sièges disponibles après récupération des réservations
+          const capacite = selectedTrajet.vehicule_id?.capacite || 0;
+          const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
+          const availableSeats = allSeats.filter((seat) => !reservedSeatsList.includes(seat.toString()));
+          setSeatNumbers(availableSeats);
+        }
+      })
+      .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
+  }
+}, [selectedTrajet, formData.date]);
+
   
   // Mettre à jour le formulaire si les données sont passées via la navigation
   useEffect(() => {
@@ -311,16 +327,16 @@ const fetchTrajets = async () => {
       setFormData((prevData) => ({
         ...prevData,
         departureCity,
-        arrivalCity
+        arrivalCity,
       }));
   
       // Filtrer les villes d'arrivée basées sur la ville de départ sélectionnée
-      const filteredArrivalCities = [...new Set(
-        trajets.filter((trajet) => trajet.origine === departureCity).map((trajet) => trajet.destination)
-      )];
+      const filteredArrivalCities = [
+        ...new Set(trajets.filter((trajet) => trajet.origine === departureCity).map((trajet) => trajet.destination)),
+      ];
   
       setArrivalCities(filteredArrivalCities);
-      
+  
       // Trouver le trajet correspondant
       const trajetCorrespondant = trajets.find(
         (trajet) => trajet.origine === departureCity && trajet.destination === arrivalCity
@@ -332,31 +348,36 @@ const fetchTrajets = async () => {
         setFormData((prevData) => ({
           ...prevData,
           tarif: trajetCorrespondant.prix,
-          horaire: `${trajetCorrespondant.horaire_depart} - ${trajetCorrespondant.horaire_arrivee}`
+          horaire: `${trajetCorrespondant.horaire_depart} - ${trajetCorrespondant.horaire_arrivee}`,
         }));
   
         // Récupérer les sièges réservés pour ce trajet
-        axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${departureCity}&arrivalCity=${arrivalCity}&date=${new Date().toISOString().split("T")[0]}`)
-          .then(response => {
-            if (response.data.success) {
-              const reservedSeatsList = response.data.reservations.map(seat => seat.toString());
+        fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${departureCity}&arrivalCity=${arrivalCity}&date=${new Date().toISOString().split("T")[0]}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              const reservedSeatsList = data.reservations.map((seat) => seat.toString());
               setReservedSeats(reservedSeatsList);
   
               // Générer la liste des sièges disponibles
               const capacite = trajetCorrespondant.vehicule_id?.capacite || 0;
               const allSeats = Array.from({ length: capacite }, (_, i) => i + 1);
-              const availableSeats = allSeats.filter(seat => !reservedSeatsList.includes(seat.toString()));
+              const availableSeats = allSeats.filter((seat) => !reservedSeatsList.includes(seat.toString()));
   
               setSeatNumbers(availableSeats);
             }
           })
-          .catch(error => console.error("Erreur lors de la récupération des sièges réservés :", error));
+          .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
       }
       setVisible(true);
     }
   }, [location.state, trajets]);
   
+  
+
+
   const handleHoraireChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,

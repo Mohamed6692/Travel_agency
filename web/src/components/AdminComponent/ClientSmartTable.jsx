@@ -36,12 +36,19 @@ function ClientSmartTable() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token"); // Récupérer le token depuis le stockage local
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/clients?page=${page}&limit=5`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/clients?page=${page}&limit=5`, {
+        method: "GET",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
         },
       });
-      
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
       console.log("Utilisateurs récupérés :", data);
       setUsers(data.clients || []);
       setPages(data.totalPages || 1);
@@ -50,6 +57,7 @@ function ClientSmartTable() {
     }
     setLoading(false);
   };
+  
   
 
 
@@ -61,15 +69,27 @@ function ClientSmartTable() {
 };
   
 
-  const deleteUser = async (id) => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/users/${id}`);
-      setUsers(users.filter(user => user._id !== id));
-      setShowModal(false);
-    } catch (error) {
-      console.error("Erreur lors de la suppression de l'utilisateur :", error);
+const deleteUser = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}`);
     }
-  };
+
+    // Mise à jour de l'état des utilisateurs après suppression
+    setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+    setShowModal(false);
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'utilisateur :", error);
+  }
+};
 
   const toggleAdminRole = async (user) => {
     try {

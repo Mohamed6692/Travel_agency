@@ -37,21 +37,28 @@ export const ReservationSmartTable = () => {
     const token = localStorage.getItem("token");
   
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/all?page=${page}&limit=5`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/all?page=${page}&limit=5`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       });
   
-      setReservations(data.reservations || []);
-      setPages(data.totalPages || 1);
+      if (response.ok) {
+        const data = await response.json();
+        setReservations(data.reservations || []);
+        setPages(data.totalPages || 1);
+      } else {
+        throw new Error("Erreur lors de la récupération des réservations.");
+      }
     } catch (error) {
       console.error("Erreur lors de la récupération des réservations :", error);
     }
   
     setLoading(false);
   };
+  
   
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pages) {
@@ -94,23 +101,36 @@ export const ReservationSmartTable = () => {
 
   const handleDeleteReservation = async () => {
     const token = localStorage.getItem("token");
-    
+  
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/${selectedReservationId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/${selectedReservationId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
       });
-
-      setReservations((prev) => prev.filter((res) => res._id !== selectedReservationId));
-
-      socket.emit("reservation:update", { type: "delete", id: selectedReservationId });
-
+  
+      if (response.ok) {
+        // Supprimer la réservation de l'état local
+        setReservations((prev) => prev.filter((res) => res._id !== selectedReservationId));
+  
+        // Émettre un événement pour informer du changement
+        socket.emit("reservation:update", { type: "delete", id: selectedReservationId });
+  
+        console.log("Réservation supprimée avec succès");
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Échec de la suppression.");
+      }
+  
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
       alert("Échec de la suppression.");
     }
-
+  
     setShowDeleteModal(false);
   };
+  
 
   const columns = [
     { key: "departureCity", label: "Départ" },

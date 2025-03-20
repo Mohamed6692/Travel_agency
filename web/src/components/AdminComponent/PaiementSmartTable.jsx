@@ -25,24 +25,42 @@ const PaiementSmartTable = ({ setTotalAmount,setTotalCount,setFailedCount }) => 
     const fetchPayments = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/payment/payments");
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/api/payment/payments`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error(
+            `Erreur HTTP ${response.status}: ${
+              (await response.json()).message || "Une erreur est survenue"
+            }`
+          );
+        }
+  
+        const data = await response.json();
         setPayments(data);
-        
+  
         // Calcul du montant total des paiements réussis
         const total = data
           .filter(payment => payment.status === "succeeded")
           .reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
-
-          const totalCount = data.length; 
-
-          const failedCount = data.reduce((count, payment) => {
-            if (payment.status === "failed" || payment.status === "requires_payment_method") {
-              return count + 1;
-            }
-            return count;
-          }, 0);
-          
-        // Mise à jour du montant total via la prop
+  
+        const totalCount = data.length;
+  
+        const failedCount = data.reduce((count, payment) => {
+          if (payment.status === "failed" || payment.status === "requires_payment_method") {
+            return count + 1;
+          }
+          return count;
+        }, 0);
+  
+        // Mise à jour des états
         setFailedCount(failedCount);
         setTotalAmount(total);
         setTotalCount(totalCount);
@@ -51,8 +69,10 @@ const PaiementSmartTable = ({ setTotalAmount,setTotalCount,setFailedCount }) => 
       }
       setLoading(false);
     };
+  
     fetchPayments();
   }, [setTotalAmount]);
+  
 
   const columns = [
     { key: "id", label: "ID Paiement" },

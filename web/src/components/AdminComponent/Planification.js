@@ -9,6 +9,7 @@ import { Divider } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
+ const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,7 +24,7 @@ const MenuProps = {
 
 
 function Planification() {
-  const socket = io(process.env.REACT_APP_BACKEND_URL+"");
+
   const [visible, setVisible] = useState(false);
   const [trajets, setTrajets] = useState([]);
   const [selectedTrajets, setSelectedTrajets] = useState([]);
@@ -33,39 +34,61 @@ function Planification() {
   const [plannings, setPlannings] = useState([]);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    let isMounted = true;
-    
-    socket.on("planning:update", (data) => {
-      if (data.type === "create") {
-        setPlannings(prevPlannings => [...prevPlannings, data.planning]);
-      } else if (data.type === "fetch") {
-        setPlannings(data.plannings);
-      }
-    });
+  const handleSocketUpdate = (data) => {
+    console.log("WebSocket received:", data);
   
-    axios.get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all-no-pagination")
-      .then(response => {
+    if (data.type === "create") {
+      setPlannings((prevPlannings) => [data.planning, ...prevPlannings]);
+    } else if (data.type === "update") {
+      setPlannings((prevPlannings) =>
+        prevPlannings.map((planning) =>
+          planning._id === data.planning._id ? data.planning : planning
+        )
+      );
+    } else if (data.type === "delete") {
+      setPlannings((prevPlannings) =>
+        prevPlannings.filter((planning) => planning._id !== data.id)
+      );
+    } else if (data.type === "fetch") {
+      setPlannings(data.plannings);
+    }
+  };
+  
+  useEffect(() => {
+    let isMounted = true;  
+  
+    socket.on("planning:update", handleSocketUpdate);
+  
+    // Récupérer les trajets
+    fetch(process.env.REACT_APP_BACKEND_URL + "/api/trajet/all-no-pagination")
+      .then(response => response.json())
+      .then(data => {
         if (isMounted) {
-          setTrajets(response.data.trajets);
-          console.log(response.data.trajets);
+          setTrajets(data.trajets);
+          console.log(data.trajets);
         }
       })
       .catch(error => console.error("Erreur lors de la récupération des trajets :", error));
   
-    axios.get(process.env.REACT_APP_BACKEND_URL+"/api/planning/all", {
+    // Récupérer les plannings avec authentification
+    fetch(process.env.REACT_APP_BACKEND_URL + "/api/planning/all", {
+      method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     })
-      .then(response => {
-        setPlannings(response.data.plannings);
+      .then(response => response.json())
+      .then(data => {
+        if (isMounted) {
+          setPlannings(data.plannings);
+        }
       })
       .catch(error => console.error("Erreur lors de la récupération des plannings :", error));
   
     return () => {
       isMounted = false;
-      socket.off("planning:update");
+      socket.off("planning:update", handleSocketUpdate);
     };
-  }, []);
+  }, [token]);
+  
   
 
   useEffect(() => {
@@ -82,43 +105,71 @@ function Planification() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/api/planning/create", {
-        jour: selectedJour,
-        trajets: selectedTrajets,
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/planning/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",  // Indiquer que les données sont en JSON
+          Authorization: `Bearer ${token}`    // Ajouter le token d'authentification dans l'en-tête
+        },
+        body: JSON.stringify({
+          jour: selectedJour,
+          trajets: selectedTrajets
+        })  // Convertir les données en JSON
       });
-
-      setMessage(response.data.message);
-      setSeverity("success");
-      setVisible(false);
-      setSelectedTrajets([]);
+  
+      const data = await response.json();  // Parser la réponse JSON
+  
+      if (response.ok) {
+        // Si la requête est réussie, mettre à jour le message et l'état
+        setMessage(data.message);
+        setSeverity("success");
+        setVisible(false);
+        setSelectedTrajets([]);  // Réinitialiser les trajets sélectionnés
+      } else {
+        // Si la réponse n'est pas correcte, afficher un message d'erreur
+        setMessage(data.message || "Une erreur s'est produite");
+        setSeverity("error");
+      }
     } catch (error) {
-      setMessage(error.response?.data?.message || "Une erreur s'est produite");
+      // En cas d'erreur de réseau ou autre
+      setMessage("Une erreur s'est produite");
       setSeverity("error");
     }
   };
+  
 
   const handleDeleteTrajet = async (planningId) => {
     console.log("Suppression de tous les trajets pour le planning :", planningId);
-  
+    
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/planning/${planningId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/planning/${planningId}`, {
+        method: "DELETE",  // Définir la méthode comme DELETE
+        headers: {
+          "Authorization": `Bearer ${token}`, // Ajouter le token d'authentification
+          "Content-Type": "application/json"  // Assurez-vous que le contenu de la requête est en JSON
+        }
       });
   
-      setPlannings(plannings.map(planning => 
-        planning._id === planningId ? { 
-          ...planning, 
-          trajets: [] // Supprime tous les trajets du planning côté frontend
-        } : planning
-      ));
+      if (response.ok) {
+        // Si la réponse est correcte, mettre à jour l'état
+        setPlannings(plannings.map(planning => 
+          planning._id === planningId ? { 
+            ...planning, 
+            trajets: [] // Supprime tous les trajets du planning côté frontend
+          } : planning
+        ));
   
-      setMessage("Trajet supprimés avec succès");
-      setSeverity("success");
+        const data = await response.json();  // Parser la réponse JSON
+        setMessage(data.message || "Trajet supprimé avec succès");
+        setSeverity("success");
+      } else {
+        const errorData = await response.json();  // Récupérer les données d'erreur si la réponse est incorrecte
+        setMessage(errorData.message || "Erreur lors de la suppression des trajets");
+        setSeverity("error");
+      }
     } catch (error) {
-      console.error("Erreur suppression des trajets:", error.response?.data || error.message);
-      setMessage(error.response?.data?.message || "Erreur lors de la suppression des trajets");
+      console.error("Erreur lors de la suppression des trajets :", error);
+      setMessage("Erreur lors de la suppression des trajets");
       setSeverity("error");
     }
   };

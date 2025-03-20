@@ -33,27 +33,34 @@ export const TrajetSmartTable = ({onEdit, refreshTable }) => {
   const [showModal, setShowModal] = useState(false);
   const [details, setDetails] = useState([]);
   // Fetch trips from backend
-  const fetchTrajets = async (age = 1) => {
+  const fetchTrajets = async (page = 1) => {
     setLoading(true);
-
     const token = localStorage.getItem("token");
+  
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all?page=${page}&limit=5`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all?page=${page}&limit=5`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
       setTrajets(data.trajets || []);
       console.log("Trajets récupérés", data.trajets);
       setPages(data.pages || 1);
     } catch (error) {
-      console.error("Error fetching trips:", error);
+      console.error("Erreur lors de la récupération des trajets :", error);
     }
-
+  
     setLoading(false);
   };
-
+  
 
 //pagination
  const handlePageChange = (newPage) => {
@@ -62,32 +69,38 @@ export const TrajetSmartTable = ({onEdit, refreshTable }) => {
   }
 };
 
-  const deleteTrajet = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-  
-      const { data } = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      console.log("Trajet supprimé", data);
-  
-      // Afficher le message de succès
-      setSuccessMessage(data.message);
-      // Fermer le modal après suppression
-      setShowModal(false);
-  
-      // Masquer le message de succès après 3 secondes
-      setTimeout(() => {
-        setSuccessMessage("");  // Effacer le message après 3 secondes
-      }, 3000);  // Délai de 3000 millisecondes (3 secondes)
-    } catch (error) {
-      console.error("Erreur lors de la suppression du trajet :", error);
+const deleteTrajet = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}`);
     }
-  };
+
+    const data = await response.json();
+    console.log("Trajet supprimé", data);
+
+    // Afficher le message de succès
+    setSuccessMessage(data.message);
+    setShowModal(false); // Fermer le modal après suppression
+
+    // Masquer le message de succès après 3 secondes
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
+  } catch (error) {
+    console.error("Erreur lors de la suppression du trajet :", error);
+  }
+};
+
   
   useEffect(() => {
     // Vérification du token et appel de fetchTrajets

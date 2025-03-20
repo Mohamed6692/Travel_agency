@@ -46,44 +46,74 @@ export const ConducteurSmartTable = ({ onEdit, refreshTable }) => {
     try {
       const token = localStorage.getItem("token");
   
-      const { data } = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-   
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
   
+      if (!response.ok) {
+        throw new Error(
+          `Erreur HTTP ${response.status}: ${
+            (await response.json()).message || "Une erreur est survenue"
+          }`
+        );
+      }
+  
+      const data = await response.json();
       showAlert(data.message, "success");
-      // Rafraîchir la liste des véhicules après suppression
+  
+      // Rafraîchir la liste des conducteurs après suppression
       fetchConducteurs();
       setShowModal(false);
     } catch (error) {
-      showAlert(error.response ? error.response.data.message : "Une erreur inconnue est survenue", "danger");
+      showAlert(error.message || "Une erreur inconnue est survenue", "danger");
     }
   };
-
+  
 
 
   const fetchConducteurs = async (page = 1) => {
     setLoading(true);
     const token = localStorage.getItem("token");
+  
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/all?page=${page}&limit=5`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("Données reçues :", data); // Ajoutez ceci pour voir les données reçues
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/all?page=${page}&limit=5`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error(
+          `Erreur HTTP ${response.status}: ${
+            (await response.json()).message || "Une erreur est survenue"
+          }`
+        );
+      }
+  
+      const data = await response.json();
+      console.log("Données reçues :", data); // Debugging
+  
       setConducteurs(data.chauffeurs || []);
-       setPages(data.totalPages || 1);
+      setPages(data.totalPages || 1);
     } catch (error) {
       console.error("Erreur lors de la récupération des conducteurs :", error);
     }
+  
     setLoading(false);
   };
+  
 
 
   //pagination

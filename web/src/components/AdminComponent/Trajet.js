@@ -8,7 +8,8 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 
 
-const socket = io(process.env.REACT_APP_BACKEND_URL+"");
+// const socket = io(process.env.REACT_APP_BACKEND_URL+"");
+const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);
 
 function Trajet() {
   const [visible, setVisible] = useState(false);
@@ -41,37 +42,63 @@ function Trajet() {
   const fetchTrajets = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all", {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all`, {
+        method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
       setTrajets(data.trajets || []);
       console.log("Trajets récupérés :", data.trajets);
     } catch (error) {
       console.error("Erreur lors de la récupération des trajets :", error);
     }
     setLoading(false);
-  }, [token]);
+  }, []);
+  
 
   const fetchVilles = useCallback(async () => {
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/ville/all", {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ville/all`, {
+        method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
       setVilles(data.villes || []);
     } catch (error) {
       console.error("Erreur lors de la récupération des villes :", error);
     }
-  }, [token]);
+  }, []);
+  
 
   const fetchConducteurs = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/chauffeur/all", {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/chauffeur/all`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
   
       if (editMode) {
         setChauffeurs(data.chauffeurs || []); // 🔥 Tous les chauffeurs en mode édition
@@ -83,15 +110,23 @@ function Trajet() {
       console.error("Erreur lors de la récupération des chauffeurs :", error);
     }
     setLoading(false);
-  }, [token, editMode]); // 🔥 Ajout de `editMode` dans les dépendances
+  }, [editMode]); // 🔥 Ajout de `editMode` dans les dépendances
   
 
   const fetchVehicules = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/vehicule/all", {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/vehicule/all`, {
+        method: "GET",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      }
+  
+      const data = await response.json();
   
       if (editMode) {
         setVehicules(data.vehicules || []); // 🔥 Tous les véhicules en mode édition
@@ -103,9 +138,9 @@ function Trajet() {
       console.error("Erreur lors de la récupération des véhicules :", error);
     }
     setLoading(false);
-  }, [token, editMode]); // 🔥 Ajout de `editMode` dans les dépendances
-  
+  }, [editMode]); // 🔥 Ajout de `editMode` dans les dépendances
 
+  
   useEffect(() => {
     fetchTrajets();
     fetchConducteurs();
@@ -194,9 +229,16 @@ function Trajet() {
   const handleDeleteAction = async () => {
     if (trajetToDelete) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/${trajetToDelete}`, {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/${trajetToDelete}`, {
+          method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
         });
+  
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP ${response.status}`);
+        }
+  
         setTrajets((prevTrajets) => prevTrajets.filter((t) => t._id !== trajetToDelete));
         setDeleteModalVisible(false);
       } catch (error) {
@@ -204,6 +246,7 @@ function Trajet() {
       }
     }
   };
+  
 
   const handleSubmit = async () => {
     if (!validateForm()) return;

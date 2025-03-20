@@ -65,117 +65,136 @@ const socket = io(process.env.REACT_APP_BACKEND_URL+"", {
 
   const fetchPayments = async () => {
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/payment/payments", { timeout: 30000 });
-      
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/payment/payments", { 
+        method: "GET", 
+        timeout: 30000 
+      });
+  
+      const data = await response.json();
       const total = data
         .filter(payment => payment.status === "succeeded")
         .reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
       
-      const totalCount = data.length; 
-
+      const totalCount = data.length;
+  
       setTotalAmount(total);
       setTotalCount(totalCount);
-
+  
       const paymentsPerMonth = data.reduce((acc, payment) => {
         const month = new Date(payment.created).getMonth();
         acc[month] = acc[month] ? acc[month] + 1 : 1;
         return acc;
       }, []);
-
+  
       setPaymentsByMonth(paymentsPerMonth);
-
     } catch (error) {
       console.error("Erreur lors de la récupération des paiements :", error);
     }
   };
+  
 
   const fetchClients = async () => {
     const token = localStorage.getItem("token");
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/users/clients-no-pagination",{
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setTotalClients(data.totalClients);
-      console.log(totalClients)
-    } catch (error) {
-      console.error("Erreur lors de la récupération des utilisateurs :", error);
-    }
-  };
-
-  const fetchReservations = async () => {
-    const token = localStorage.getItem("token");
-    
-    try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/reservation/all", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      
-      setTotalReservations(data.reservations.length || 0);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des réservations :", error);
-    }
-  };
-
-  const fetchTrajets = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setTotalTrajets(data.trajets.length || 0);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des trajets :", error);
-    }
-  };
-
-  const fetchConducteurs = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/chauffeur/all", {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/users/clients-no-pagination", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
   
-      setTotalConducteurs(data.chauffeurs.length || 0); 
+      const data = await response.json();
+      setTotalClients(data.totalClients);
+      console.log(totalClients);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des utilisateurs :", error);
+    }
+  };
+  
+
+  const fetchReservations = async () => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/reservation/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+      setTotalReservations(data.reservations.length || 0);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des réservations :", error);
+    }
+  };
+  
+
+  const fetchTrajets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/trajet/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+      setTotalTrajets(data.trajets.length || 0);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des trajets :", error);
+    }
+  };
+  
+
+  const fetchConducteurs = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/chauffeur/all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+      setTotalConducteurs(data.chauffeurs.length || 0);
       setConducteursEnService(data.chauffeurs.filter(chauffeur => chauffeur.statut === "En service").length || 0);
     } catch (error) {
       console.error("Erreur lors de la récupération des conducteurs :", error);
     }
   };
   
+  
   const fetchVehicules = async () => {
     const token = localStorage.getItem("token");
   
     try {
-      const { data } = await axios.get(process.env.REACT_APP_BACKEND_URL+"/api/vehicule/all", {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/vehicule/all", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      
+  
+      const data = await response.json();
       const indisponibles = data.vehicules.filter(vehicule => vehicule.statut === "Non disponible").length;
-      
+  
       setVehiculesNonDisponibles(indisponibles);
       setTotalVehicules(data.vehicules.length || 0);
     } catch (error) {
       console.error("Erreur lors de la récupération des véhicules :", error);
     }
   };
-
-  useEffect(() => {
+  
+useEffect(() => {
     fetchReservations();
     fetchPayments();
     fetchClients();
@@ -257,27 +276,30 @@ useEffect(() => {
   let isMounted = true;
   socket.on("planning:update", (data) => {
     if (data.type === "create") {
-      // Ajouter le nouveau planning à l'état
       setPlannings(prevPlannings => [...prevPlannings, data.planning]);
     }
   });
 
-  axios.get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all-no-pagination")
-    .then(response => {
-      if (isMounted) setTrajets(response.data.trajets);
+  // Requête GET pour récupérer tous les trajets
+  fetch(process.env.REACT_APP_BACKEND_URL + "/api/trajet/all-no-pagination")
+    .then(response => response.json())
+    .then(data => {
+      if (isMounted) setTrajets(data.trajets);
     })
     .catch(error => console.error("Erreur lors de la récupération des trajets :", error));
 
-  axios.get(process.env.REACT_APP_BACKEND_URL+"/api/planning/all", {
+  // Requête GET pour récupérer tous les plannings avec le token d'authentification
+  fetch(process.env.REACT_APP_BACKEND_URL + "/api/planning/all", {
     headers: { Authorization: `Bearer ${token}` }
   })
-    .then(response => {
-      setPlannings(response.data.plannings);
+    .then(response => response.json())
+    .then(data => {
+      setPlannings(data.plannings);
     })
     .catch(error => console.error("Erreur lors de la récupération des plannings :", error));
 
   return () => {
-    isMounted = false; 
+    isMounted = false;
     socket.off("planning:update");
   };
 }, []);
