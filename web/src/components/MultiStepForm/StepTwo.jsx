@@ -16,12 +16,17 @@ const StepTwo = () => {
   useEffect(() => {
     const fetchTrajets = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`);
-        console.log("Réponse reçue :", response.data);
-
-        if (response.data.success) {
-          const allTrajets = response.data.trajets;
-
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`);
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log("Réponse reçue :", data);
+  
+        if (data.success) {
+          const allTrajets = data.trajets;
+  
           if (address.departureCity && address.arrivalCity) {
             const filteredTrajets = allTrajets.filter(
               trajet =>
@@ -37,10 +42,10 @@ const StepTwo = () => {
         console.error("Erreur lors du chargement des trajets :", error);
       }
     };
-
+  
     fetchTrajets();
   }, [address.departureCity, address.arrivalCity]);
-
+  
 
   return (
     <Formik

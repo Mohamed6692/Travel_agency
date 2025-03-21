@@ -11,27 +11,34 @@ const StepThree = () => {
   useEffect(() => {
     if (address.departureCity && address.arrivalCity && address.date) {
       console.log("Fetching available seats...");
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation`, {
-          params: {
-            departureCity: address.departureCity,
-            arrivalCity: address.arrivalCity,
-            date: address.date,
-          },
-        })
-        .then((response) => {
-          if (response.data.success) {
-            const reservedSeats = response.data.reservations.map(seat => seat.toString());
+  
+      const fetchSeats = async () => {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/api/reservation/seatReservation?departureCity=${address.departureCity}&arrivalCity=${address.arrivalCity}&date=${address.date}`
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
+          }
+  
+          const data = await response.json();
+          if (data.success) {
+            const reservedSeats = data.reservations.map(seat => seat.toString());
             const totalSeats = address.seat || 0;
             const allSeats = Array.from({ length: totalSeats }, (_, i) => (i + 1).toString());
             const filteredSeats = allSeats.filter(seat => !reservedSeats.includes(seat));
             setAvailableSeats(filteredSeats);
           }
-        })
-        .catch((error) => console.error("Erreur lors de la récupération des sièges réservés :", error));
+        } catch (error) {
+          console.error("Erreur lors de la récupération des sièges réservés :", error);
+        }
+      };
+  
+      fetchSeats();
     }
   }, [address.departureCity, address.arrivalCity, address.date, address.seat]);
-
+  
 
 
   return (

@@ -23,16 +23,17 @@ const StepOne = () => {
   const [vehiculeCapacite, setVehiculeCapacite] = useState(null);
  
   useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_BACKEND_URL+"/api/trajet/all-no-pagination")
-      .then((response) => {
-        if (response.data.success) {
-          setTrajets(response.data.trajets);
-          setDepartureCities([...new Set(response.data.trajets.map((t) => t.origine))]);
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trajet/all-no-pagination`)
+      .then((response) => response.json()) // Convertir la réponse en JSON
+      .then((data) => {
+        if (data.success) {
+          setTrajets(data.trajets);
+          setDepartureCities([...new Set(data.trajets.map((t) => t.origine))]);
         }
       })
       .catch((error) => console.error("Erreur lors du chargement des trajets:", error));
   }, []);
+  
 
   
     //depart
