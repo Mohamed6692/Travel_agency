@@ -31,7 +31,7 @@ function MethodePaiement({ onSelectMethod }) {
     : paymentMethods.filter((method) => method.id !== 1); // Sinon, exclure "Espèces"
 
   return (
-    <Card sx={{ maxWidth: 500, margin: "auto", padding: 2, textAlign: "center", position: "relative" }}>
+    <Card sx={{ maxWidth: 390, margin: "auto", padding: 2, textAlign: "center", position: "relative" }}>
       <Typography
         variant="h6"
         sx={{ fontSize: "1.2rem", fontWeight: "bold", color: "#333", textAlign: "center", marginBottom: 2 }}
@@ -40,12 +40,12 @@ function MethodePaiement({ onSelectMethod }) {
       </Typography>
 
       <Box
-        sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 2, flexWrap: "nowrap", overflowX: "auto", paddingX: 1 }}
+        sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 1, flexWrap: "nowrap", overflowX: "auto", paddingX: 1 }}
       >
         {filteredMethods.map((method, index) => (
           <Card
             key={method.id}
-            sx={{ width: 150, height: 100, boxShadow: 2, display: "flex", flexDirection: "column", justifyContent: "space-between", marginBottom: "12%" }}
+            sx={{ width: 90, height: 100, boxShadow: 3, display: "flex", flexDirection: "column", justifyContent: "space-between", marginBottom: "10%" }}
           >
             <CardActionArea
               onClick={() => {

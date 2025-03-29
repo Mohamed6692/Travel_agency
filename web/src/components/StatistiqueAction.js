@@ -2,7 +2,7 @@ import React from 'react';
 
 function StatistiqueAction() {
   return (
-    <div className="container-fluid counter py-5 mt-5">
+    <div className="container-fluid counter py-5 mt-6">
       <div className="container py-5">
         <div className="row g-5">
           <div className="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">

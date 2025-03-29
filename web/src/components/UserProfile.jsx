@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Card, CardContent, Typography, Alert, Avatar, Grid, Divider,
   Dialog, DialogActions, DialogContent, DialogTitle, Box
- } from "@mui/material";
+} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { BsLock } from "react-icons/bs";
 
@@ -110,8 +110,6 @@ function UserProfile() {
       setAlertMessage("Une erreur s'est produite lors de la mise à jour.");
     }
   };
-  
-
 
   const handlePasswordChange = async () => {
     const token = localStorage.getItem("token");
@@ -153,128 +151,101 @@ function UserProfile() {
       setAlertMessage("Une erreur s'est produite lors de la mise à jour du mot de passe.");
     }
   };
-  
 
   return (
-    
     <Card sx={{ maxWidth: 1000, margin: "auto", mt: 4 }}>
-      <CardContent sx={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ flex: 1 }}>
-          <Typography sx={{ fontWeight: "bold", mb: 2, textAlign: "center" ,color:"red"}}>
-            Vue du profil
-          </Typography>
+      <CardContent sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between" }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ fontWeight: "bold", mb: 2, textAlign: "center", color: "red" }}>
+              Vue du profil
+            </Typography>
 
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Avatar sx={{ width: 157, height: 156, mt: 4, ml: 4 }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Avatar sx={{ width: 157, height: 156, mt: 4, ml: 4 }} />
+              <div style={{ marginLeft: "1.5em" }}>
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  {profile.firstName} {profile.lastName}
+                </Typography>
 
-            <div style={{ marginLeft: "1.5em" }}>
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                {profile.firstName} {profile.lastName}
-              </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  ID: {profile.id ? `${profile.id.slice(0, 5)}...${profile.id.slice(-6)}` : "ID non disponible"}
+                </Typography>
 
-              <Typography variant="body2" color="textSecondary">
-                ID: {profile.id}
-              </Typography>
-
-              {/* <Button 
-                variant="text" 
-                onClick={handleDialogOpen} 
-                sx={{ 
-                  color: "black", 
-                  border: "1px solid black", 
-                  padding: "5px 5px", 
-                  fontSize: "10px",
-                  
-                }}
-              >
-                <i className="bi bi-key-fill" style={{ fontSize: "14px", marginRight: "5px" }}></i>
-                Modifier le mot de passe
-              </Button> */}
-
-
+              </div>
             </div>
-          </div>
-        </div>
+          </Grid>
 
-        <Divider orientation="vertical" flexItem sx={{ margin: "0 16px" }} />
+          <Grid item xs={12} md={6}>
+            <Typography variant="h6" component="div" sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
+              Mettre à jour le profil
+            </Typography>
 
-        <div style={{ flex: 1 }}>
-        <Typography variant="h6" component="div" sx={{ fontSize: "0.9rem" ,fontWeight:"bold"}}>
-          Mettre à jour le profil
-        </Typography>
+            {/* Affichage du message de succès avec CheckIcon */}
+            {showSuccessMessage && (
+              <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" sx={{ mb: 2 }}>
+                {alertMessage}
+              </Alert>
+            )}
 
-
-          {/* Affichage du message de succès avec CheckIcon */}
-          {showSuccessMessage && (
-            <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" sx={{ mb: 2 }}>
-              {alertMessage}
-            </Alert>
-          )}
-
-          <form>
-            <TextField
-              label="Email"
-              type="email"
-              name="email"
-              variant="outlined"
-              size="small"
-              value={profile.email}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-              disabled
-            />
-            <TextField
-              label="Prénom"
-              type="text"
-              name="firstName"
-              variant="outlined"
-              size="small"
-              value={profile.firstName}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Nom"
-              type="text"
-              name="lastName"
-              variant="outlined"
-              size="small"
-              value={profile.lastName}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Téléphone"
-              type="text"
-              name="telephone"
-              variant="outlined"
-              size="small"
-              value={profile.telephone}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-            />
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-              <Button variant="contained" color="primary" onClick={updateProfile}>
-                Mettre à jour
-              </Button>
-            </Box>
-
-          </form>
-        </div>
+            <form>
+              <TextField
+                label="Email"
+                type="email"
+                name="email"
+                variant="outlined"
+                size="small"
+                value={profile.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                disabled
+              />
+              <TextField
+                label="Prénom"
+                type="text"
+                name="firstName"
+                variant="outlined"
+                size="small"
+                value={profile.firstName}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Nom"
+                type="text"
+                name="lastName"
+                variant="outlined"
+                size="small"
+                value={profile.lastName}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Téléphone"
+                type="text"
+                name="telephone"
+                variant="outlined"
+                size="small"
+                value={profile.telephone}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                <Button variant="contained" color="primary" onClick={updateProfile}>
+                  Mettre à jour
+                </Button>
+              </Box>
+            </form>
+          </Grid>
+        </Grid>
       </CardContent>
 
-
-
       {/* Dialog pour changer le mot de passe */}
-      <Dialog 
-        open={openDialog} 
-        onClose={handleDialogClose} 
-        sx={{ maxWidth: "400px", width: "90%", margin: "auto" }}
-      >
+      <Dialog open={openDialog} onClose={handleDialogClose} sx={{ maxWidth: "400px", width: "90%", margin: "auto" }}>
         <DialogTitle>
           <Typography variant="h6" sx={{ fontSize: "1rem", textAlign: "center" }}>
             Veuillez remplir le formulaire
@@ -286,7 +257,6 @@ function UserProfile() {
             {alertMessage}
           </Alert>
         )}
-
 
         <DialogContent>
           <TextField
@@ -313,7 +283,6 @@ function UserProfile() {
             margin="dense"
             required
             error={newPassword === ""}
-            
             InputLabelProps={{ sx: { fontSize: "0.8rem" } }}
           />
           <TextField

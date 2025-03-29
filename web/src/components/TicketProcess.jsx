@@ -26,8 +26,7 @@ function TicketProcess() {
           justifyContent: 'center', // Centrer horizontalement
           alignItems: 'center',
           marginTop: '1%',
-          marginBottom: '10%',
-          marginLeft: '5%',
+          marginBottom: '15%',
           '& > :not(style)': {
             m: 1,
             width: 580,

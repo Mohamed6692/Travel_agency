@@ -3,13 +3,15 @@ import { Button } from "antd";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import JsBarcode from "jsbarcode";
+import { useTheme, useMediaQuery } from "@mui/material"; // Ajout de MUI pour les media queries
 
 const TicketGenerator = ({ reservationData }) => {
   const ticketRef = useRef(null);
   const barcodeRef = useRef(null);
   const [reservationDate, setReservationDate] = useState(null);
 
-  console.log("reservationData", reservationData);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Vérifie si l'écran est petit
 
   useEffect(() => {
     if (reservationData) {
@@ -52,7 +54,7 @@ const TicketGenerator = ({ reservationData }) => {
   };
 
   return (
-    <div className="details__wrapper">
+    <div className="details__wrapper" style={{ padding: isSmallScreen ? "10px" : "20px" }}>
       <style jsx>{`
         .ticket-container {
           padding: 20px;
@@ -61,17 +63,17 @@ const TicketGenerator = ({ reservationData }) => {
           background: #fff;
           margin: 20px auto;
           text-align: center;
-          width: 20%;
+          width: ${isSmallScreen ? "90%" : "30%"};
         }
         .custom-heading {
-          font-size: 1.5rem;
+          font-size: ${isSmallScreen ? "1.2rem" : "1.5rem"};
           text-decoration: underline;
           margin-bottom: 15px;
         }
         .ticket-details {
           text-align: left;
           margin-left: 10px;
-          font-size: 0.9rem;
+          font-size: ${isSmallScreen ? "0.8rem" : "0.9rem"};
         }
         .barcode-container {
           margin-top: 20px;

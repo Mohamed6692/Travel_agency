@@ -64,7 +64,7 @@ const StepTwo = () => {
       {({ handleSubmit, errors, values, setFieldValue }) => (
         <div className="details__wrapper">
           <Typography variant="body1" fontSize="0.9rem" fontWeight="bold">
-            Le tarif pour le trajet {address.departureCity} → {address.arrivalCity} est de :  
+            Tarif du trajet {address.departureCity} → {address.arrivalCity} :  
             <Typography component="span" color="primary" fontWeight="bold">
               {address.tarif} FCFA
             </Typography>

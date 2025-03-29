@@ -108,7 +108,7 @@ const Review = ({ successMessage, setSuccessMessage }) => {
 
       <Row>
         <Col span={24}>
-          <h1 className="custom-heading">Résumé de votre trajet </h1>
+        <h1 className="custom-heading" style={{ fontWeight: 'bold' }}>Résumé de votre trajet</h1>
           <p className="custom-text"><strong>Trajet :</strong> De {address.departureCity} → {address.arrivalCity} <strong> </strong> {" "}<AccessTimeIcon style={{ fontSize: 16 }}/>  :{address.horaires?.[0]}</p> 
           <p className="custom-text"><strong>Tarif :</strong> {address.tarif} FCFA</p>
           <p className="custom-text"><strong>Numéro de siège :</strong> {address.seat}</p>

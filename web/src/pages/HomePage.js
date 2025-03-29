@@ -46,7 +46,7 @@ export default function HomePage() {
 
       <Accueil onReserveClick={scrollToTicketProcess} />
       <div ref={ticketProcessRef}>
-        <TicketProcess sx={{ marginBottom: "12rem" }}/>
+        <TicketProcess sx={{ marginBottom: "17rem" }}/>
       </div>
       <StatistiqueAction />
       <Destination />
