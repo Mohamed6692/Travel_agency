@@ -124,19 +124,26 @@ const Navbar = () => {
                 <Link to="/" className="nav-item nav-link">NOS SERVICES</Link>
                 <Link to="/" className="nav-item nav-link">ACTUALITÉS</Link>
                 <Link to="/contact" className="nav-item nav-link">CONTACTS</Link>
-                {isMobile && token && (
-                  <>
-                  <Link to="/user-profile" className="nav-item nav-link">PROFILE </Link>
-                   <button 
-                      className="nav-item nav-link" 
-                      style={{ backgroundColor: "#DB6845", color: "black", display: "flex", alignItems: "center", border: "none", padding: "8px 16px", borderRadius: "4px" }} 
-                      onClick={handleLogout}
-                    >
-                      <LogoutIcon sx={{ marginRight: "8px", color: "black" }} />
-                      DECONNEXION
-                    </button>
-                  </>
-                  )}
+                {isMobile && (
+                  token ? (
+                    <>
+                      <Link to="/user-profile" className="nav-item nav-link">PROFILE</Link>
+                      <button 
+                        className="nav-item nav-link" 
+                        style={{ backgroundColor: "#DB6845", color: "black", display: "flex", alignItems: "center", border: "none", padding: "8px 16px", borderRadius: "4px" }} 
+                        onClick={handleLogout}
+                      >
+                        <LogoutIcon sx={{ marginRight: "8px", color: "black" }} />
+                        DECONNEXION
+                      </button>
+                    </>
+                  ) : (
+                    <Link to="/login" className="btn btn-primary rounded-pill py-2 px-4 me-2">
+                      Se connecter
+                    </Link>
+                  )
+                )}
+
               </div>
               {!isMobile && (
                   token ? (
