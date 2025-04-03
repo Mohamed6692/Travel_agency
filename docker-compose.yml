@@ -21,6 +21,8 @@ services:
       - JWT_SECRET=SECRET
       - REDIS_URL=redis
       - REDIS_PORT=6396
+      - STRIPE_SECRET_KEY=sk_test_51QlImOHGXJWBuWZNXQ0TbW9Y2tiYErbS4tsMF1WahzDTWxhQIrK5RoNmeSqFM8QYZzdbfFInbnoEgW9IU1WAz9S900Slzqzn5v
+      - STRIPE_PUBLISHABLE_KEY=pk_test_51QlImOHGXJWBuWZN7WOSjUq5l15XsLoN5Os9UHkQxMDhWhy4wahCannrARp0uU6cWQKCKduxoNddmYgiVpzEUFW700NculobZ9
     ports:
       - "5020:5001"
     depends_on:
